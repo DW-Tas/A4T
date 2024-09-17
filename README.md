@@ -47,12 +47,16 @@ Xol-Carriage documentation is here: https://github.com/Armchair-Heavy-Industries
 | 3   | M3 x 8 SHCS                                   | 2x Top cowling mounting. 1x Toolhead board mount to back of Xol Carriage                  |
 | 2   | M3 x 6 SHCS or BHCS or Waferhead screw        | Any of these three screw heads. The important part is 6mm thread <br/> `This is only for Xol Carriage. If you use Tap or other Voron carriage, you already have SHCS where the hotend adapter slots under` <img src='docs/images/xol_carriage_screws.png' width=120 alt="tap screws" align='right'> | 
 | 2   | M3 x 50 SHCS                                  | Bottom cowling mounting screws. The same as are in the bottom of Stealthburner            |
-| 2   | M3 x 12 SHCS or BHCS                          | Attach extruder to cowling                                                                |
+| 2   | * M3 x 14 SHCS or BHCS (WWBMG)<br/>* M3 x 12 SHCS or BHCS (Sherpa-Mini)                         | Attach extruder to cowling                 |
 | 2   | 4010 Blower Fan                               | Recommended blower: GDStime 12,000 RPM 24v. (<a href="https://www.aliexpress.com/item/32798634077.html">Ali Express</a>)                                                        |
 | 1   | 2510 Axial Fan                                | Recommended fan: Delta Electronics 15,000 RPM 5v ASB02505SHA-AY6B (<a href="https://www.digikey.com/en/products/detail/delta-electronics/ASB02505SHA-AY6B/7491489">DigiKey</a>) |
+| 3   | Neopixel LED PCB                              | The same kind as used in Stealthburner. Get the solder pad version.                       |
+| 9   | Lengths of 28 AWG or 26 AWG wire              | To make the LED harness                                                                   |
+| 1   | Connector and required crimps                 | To make the LED harness                                                                   |
 | 1   | Hotend                                        | Recommended hotend:<br/>*  **Dragon HF** with **Triangle Lab ZS-MZE-HF** (<a href="https://www.aliexpress.com/item/1005006402646093.html">Ali Express</a>) <br/> Alternatives: <br/>* Rapido HF<br/>* Dragon UHF-Mini                                    |
 | 4   | Hotend screws                                 | Should come with your hotend. Dragon/Rapido usually use M2.5 x 8mm SHCS                   |
 | 1   | Extruder                                      | Recommended Extruder:<br/>* Modified WW-BMG with Bondtech RIDGA v2. ([STLs here](STL))<br/> Alternatives: <br/>*Sherpa-Mini   |
+| 2   | 20mm or 21mm 3mm internal threaded stand off  | To attach toolhead board to the back of the extruder motor and third mounting point on the back of Xol Carriage. <br/>`Length will depend on the motor you use. It needs to line up the toolhead board holder with the back of the Xol Carriage.`                   |
 
 <br/><br/><br/><br/>
 This work is licensed under a
