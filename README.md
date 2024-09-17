@@ -21,7 +21,16 @@ A4T is built around the following constraints:
 * Built for Xol-Carriage - can work with Voron Tap / Standard Voron CW2 carriage.
 
 ## Pre-requisites
-A printer that fits either Xol carriage, or a standard voron CW2 or Tap carriage.
+A printer that fits either Xol carriage, or a standard voron CW2 or Tap carriage.<br/>
+<br/>
+To avoid build plate area loss:
+- X/Y gantry joints that are within the same size as standard Voron 2.4 or Trident X/Y joints.
+- Slimmer than stock idlers (see warning below) 
+
+See Voron Design instructions to install TAP.<br/>
+`If using tap, highly recommended to replace M3x50 SHCS with button head screws for better build plate clearance.`<br/>
+<br/>
+Xol-Carriage documentation is here: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md<br/>
 
 > [!WARNING]
 > ## Front Idlers  
@@ -31,6 +40,7 @@ A printer that fits either Xol carriage, or a standard voron CW2 or Tap carriage
 > * Ramalama2's [Front Idlers](https://github.com/Ramalama2/Voron-2-Mods/tree/main/Front_Idlers)  
 
 ## Bill of Materials (BOM)
+`*Does not include carriage hardware`
 | Qty | Item                                          | Notes                                                                                     |
 | --- | --------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | 4   | M3 Square Nut (DIN 562)                       | Yes, squre nuts. They don't spin in a slot like hex nuts                                  |
@@ -38,6 +48,11 @@ A printer that fits either Xol carriage, or a standard voron CW2 or Tap carriage
 | 2   | M3 x 6 SHCS or BHCS or Waferhead screw        | Any of these three screw heads. The important part is 6mm thread <br/> `This is only for Xol Carriage. If you use Tap or other Voron carriage, you already have SHCS where the hotend adapter slots under` <img src='docs/images/xol_carriage_screws.png' width=120 alt="tap screws" align='right'> | 
 | 2   | M3 x 50 SHCS                                  | Bottom cowling mounting screws. The same as are in the bottom of Stealthburner            |
 | 2   | M3 x 12 SHCS or BHCS                          | Attach extruder to cowling                                                                |
+| 2   | 4010 Blower Fan                               | Recommended blower: GDStime 12,000 RPM 24v. (<a href="https://www.aliexpress.com/item/32798634077.html">Ali Express</a>)                                                        |
+| 1   | 2510 Axial Fan                                | Recommended fan: Delta Electronics 15,000 RPM 5v ASB02505SHA-AY6B (<a href="https://www.digikey.com/en/products/detail/delta-electronics/ASB02505SHA-AY6B/7491489">DigiKey</a>) |
+| 1   | Hotend                                        | Recommended hotend:<br/>*  **Dragon HF** with **Triangle Lab ZS-MZE-HF** (<a href="https://www.aliexpress.com/item/1005006402646093.html">Ali Express</a>) <br/> Alternatives: <br/>* Rapido HF<br/>* Dragon UHF-Mini                                    |
+| 4   | Hotend screws                                 | Should come with your hotend. Dragon/Rapido usually use M2.5 x 8mm SHCS                   |
+| 1   | Extruder                                      | Recommended Extruder:<br/>* Modified WW-BMG with Bondtech RIDGA v2. ([STLs here](STL))<br/> Alternatives: <br/>*Sherpa-Mini   |
 
 <br/><br/><br/><br/>
 This work is licensed under a
