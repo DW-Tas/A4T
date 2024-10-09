@@ -95,9 +95,17 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 14. Install the extruder and extruder adapter
     * Include the toolhead board if you're using one
 15. Wire it all up
-16. Install everything on your carriage
-17. Check all your software setup, enstop positions etc.
-18. Enjoy!
+16. Make sure the screws that are already in the not quite top of the carriage are ~3mm out so that the toolhead can slot over them properly
+17. Install everything on your carriage
+18. Tighten all the screws
+    * 2x M3x50 bottom screws
+    * 2x screws that were already in the carriage via the driver holes
+    * 2x M3x8 top screws
+      * From the front for CW2/Tap
+      * From the back for Xol Carriage
+    * 1x M3x8 under the toolhead board (Xol Carriage only)
+19. Check all your software setup, enstop positions etc.
+20. Enjoy!
 
 
 <br/><br/><br/><br/>
