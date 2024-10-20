@@ -112,7 +112,7 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | Time to wire it all up                                                                                                                                                             |       |
 | &nbsp; &nbsp; &nbsp;Make sure to keep wires out of the carriage screw keep clear zone                                                                                              |       |
 | &nbsp; &nbsp; &nbsp;Use the cable tie slots to keep everything tidy                                                                                                                |       |
-| **Finaly, we can put this thing on the printer! **                                                                                                                                 |       |
+| ***Finaly, we can put this thing on the printer!***                                                                                                                                 |       |
 | Make sure that the screws that are already in the carriage have a bit over 3mm of exposed thread <br/>`If they don't, the toolhead wont be able to slot into place`                |       |
 | Put the third toolhead board mounting screw into the back of Xol carriage, leaving 4 to 5mm of exposed threads                                                                     |       |
 | Hook the toolhead board mount over third mounting screw and slide the completed toolhead down onto the screws that are pre-placed in the carriage.                                 |       |
