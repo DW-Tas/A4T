@@ -32,7 +32,8 @@ See Voron Design instructions to install TAP.<br/>
 <br/>
 Xol-Carriage documentation is here: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md<br/>
 
-> [!WARNING] Front Idlers  
+> [!WARNING]
+> ### Front Idlers  
 > A4T can collide with the stock voron front idlers for Trident and 2.4 when the toolhead is in the front corners of the build area. This can cause issues with the homing sequence when homing X if the toolhead is at the front of the gantry on Y. <br/><br/>
 > Fully compatible idlers:<br/>
 > * clee's [BFI (Beefy Front Idlers)](https://github.com/clee/VoronBFI)  <br/>
