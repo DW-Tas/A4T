@@ -30,7 +30,7 @@ To avoid build plate area loss:
 See Voron Design instructions to install TAP.<br/>
 `If using tap, highly recommended to replace M3x50 SHCS with button head screws for better build plate clearance.`<br/>
 <br/>
-Xol-Carriage documentation is here: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md<br/>
+Xol-Carriage documentation is here: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md<br/><br/>
 
 > [!WARNING]
 > ### Front Idlers  
@@ -39,8 +39,10 @@ Xol-Carriage documentation is here: https://github.com/Armchair-Heavy-Industries
 > * clee's [BFI (Beefy Front Idlers)](https://github.com/clee/VoronBFI)  <br/>
 > * Ramalama2's [Front Idlers](https://github.com/Ramalama2/Voron-2-Mods/tree/main/Front_Idlers)  
 
+<br/>
+
 ## Bill of Materials (BOM)
-`*Does not include carriage hardware`
+***`*Not including carriage hardware`***
 | Qty | Item                                          | Notes                                                                                     |
 | --- | --------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | 4   | M3 Square Nut (DIN 562)                       | Yes, squre nuts. They don't spin in a slot like hex nuts                                  |
@@ -55,7 +57,7 @@ Xol-Carriage documentation is here: https://github.com/Armchair-Heavy-Industries
 | 1   | Connector and required crimps                 | To make the LED harness                                                                   |
 | 1   | Hotend                                        | Recommended hotend:<br/>*  **Dragon HF** with **Triangle Lab ZS-MZE-HF** (<a href="https://www.aliexpress.com/item/1005006402646093.html">Ali Express</a>)<img src='docs/images/DragonHF+MZE.png' width=120 alt="Dragon" align='right'> <br/> Alternatives: <br/>* Dragon UHF-Mini <br/>* Dragon Ace (with spacer, no MZE)<br/>* Rapido HF<br/>* NF-Crazy with MZE<br/>* NF-Crazy Volcano <br/><img src='docs/images/other_hotends.png' width=280 alt="hotends" align='right'>        |
 | 4   | Hotend screws                                 | Should come with your hotend. Dragon/Rapido usually use M2.5 x 8mm SHCS                   |
-| 1   | Extruder                                      | Recommended Extruder:<br/>* Modified WW-BMG with Bondtech RIDGA v2. ([STLs here](STL))<br/> Alternatives: <br/>*Sherpa-Mini  <br/>*VZ-Hextrudort-Low <br/>*LGX-Lite   |
+| 1   | Extruder                                      | Recommended Extruder:<br/>* Modified WW-BMG with Bondtech RIDGA v2. ([STLs here](STL))<br/> Alternatives: <br/>*Sherpa-Mini  <br/>*VZ-Hextrudort-Low <br/>*LGX-Lite <br/>*E3D Roto Vitamins   |
 | 2   | M3 threaded heat insert                       | Standard Voron spec: M3 x 5 x 4                                                           |
 | 2   | 20mm or 21mm 3mm internal threaded stand off  | To attach toolhead board to the back of the extruder motor and third mounting point on the back of Xol Carriage. <br/>`Length will depend on the motor you use. It needs to line up the toolhead board holder with the back of the Xol Carriage.`                   |
 
@@ -77,7 +79,7 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 
 ### Assembly Steps
 
-| Notes                                                                                                                                                                              | Image |
+| <center>Notes</center>                                                                                                                                                             | Images|
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | Remove the built-in supports from the printed parts                                                                                                                                |       |
 | Attach the LED filter to the LED diffuser. <br/>`a drop of superglue is handy here`                                                                                                |       |
