@@ -116,7 +116,8 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | Tighten up all the screws:<br/>* 2x M3x50 bottom screws<br/>* 2x screws that were already in the carriage `access via the driver holes`<br/>* 2x M3x8 top screws<br/>** From the front for CW2/Tap<br/>** From the back for Xol Carriage<br/>* 1x M3x8 under the toolhead board (Xol Carriage only)                                                                                                                                                         |       |
 | Remember to hook up your probe wires from the carriage to the toolhead board, if you're using one. <br/>`and your endstop wires if you haven't figured out sensorless yet`              |       |
 | Make sure you double check your software setup `especially endstop location`                                                                                                       |       |
-> [!WARNING] Blower fan fit
+> [!WARNING] 
+> Blower fan fit
 > `If your blower fans are not a snug fit, you likely had shrinkage compensation or EM issues. You can probably get away with using some masking tape on top of a loose fan in a pinch to save a reprint.`
 
 <br>
