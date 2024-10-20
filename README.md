@@ -118,7 +118,7 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | Make sure you double check your software setup `especially endstop location`                                                                                                       |       |
 > [!WARNING]
 > ### Blower fan fit  
-> `If your blower fans are not a snug fit, you likely had shrinkage compensation or EM issues. You can probably get away with using some masking tape on top of a loose fan in a pinch to save a reprint.`
+> `If your blower fans are not a snug fit, you likely had shrinkage compensation or EM issues. You can probably get away with using some masking tape on top of a loose fan to save a reprint in a pinch.`
 
 <br>
 
