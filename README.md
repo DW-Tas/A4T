@@ -43,7 +43,7 @@ Xol-Carriage documentation is here: https://github.com/Armchair-Heavy-Industries
 
 ## Bill of Materials (BOM)
 ***`*Not including carriage hardware`***
-| Qty | Item                                          | Notes                                                                                     |
+| Qty | Item                                          | Notes                        |
 | --- | --------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | 4   | M3 Square Nut (DIN 562)                       | Yes, squre nuts. They don't spin in a slot like hex nuts                                  |
 | 3   | M3 x 8 SHCS                                   | 2x Top cowling mounting. 1x Toolhead board mount to back of Xol Carriage                  |
@@ -53,8 +53,8 @@ Xol-Carriage documentation is here: https://github.com/Armchair-Heavy-Industries
 | 2   | 4010 Blower Fan                               | Recommended blower: GDStime 12,000 RPM 24v. (<a href="https://www.aliexpress.com/item/32798634077.html">Ali Express</a>)                                                        |
 | 1   | 2510 Axial Fan                                | Recommended fan: Delta Electronics 15,000 RPM 5v ASB02505SHA-AY6B (<a href="https://www.digikey.com/en/products/detail/delta-electronics/ASB02505SHA-AY6B/7491489">DigiKey</a>) |
 | 3   | Neopixel LED PCB                              | The same kind as used in Stealthburner. Get the solder pad version. <br/> `Wiring diagram (click to enlarge) ---->`  <img src='docs/images/LED_wiring_order.jpg' width=60 alt="LEDs" align='right'>                      |
-| 9   | Lengths of 28 AWG or 26 AWG wire              | To make the LED harness                                                                   |
-| 1   | Connector and required crimps                 | To make the LED harness                                                                   |
+| 9   | Lengths of 28 AWG or 26 AWG wire              | To make the LED harness      |
+| 1   | Connector and required crimps                 | To make the LED harness      |
 | 1   | Hotend                                        | Recommended hotend:<br/>*  **Dragon HF** with **Triangle Lab ZS-MZE-HF** (<a href="https://www.aliexpress.com/item/1005006402646093.html">Ali Express</a>)<img src='docs/images/DragonHF+MZE.png' width=120 alt="Dragon" align='right'> <br/> Alternatives: <br/>* Dragon UHF-Mini <br/>* Dragon Ace (with spacer, no MZE)<br/>* Rapido HF<br/>* NF-Crazy with MZE<br/>* NF-Crazy Volcano <br/><img src='docs/images/other_hotends.png' width=280 alt="hotends" align='right'>        |
 | 4   | Hotend screws                                 | Should come with your hotend. Dragon/Rapido usually use M2.5 x 8mm SHCS                   |
 | 1   | Extruder                                      | Recommended Extruder:<br/>* Modified WW-BMG with Bondtech RIDGA v2. ([STLs here](STL))<br/> Alternatives: <br/>*Sherpa-Mini  <br/>*VZ-Hextrudort-Low <br/>*LGX-Lite <br/>*E3D Roto Vitamins   |
@@ -79,46 +79,46 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 
 ### Assembly Steps
 
-| <center>Notes</center>                                                                                                                                                             | Images|
+| <center>Notes</center>                                                                                                | Images|
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| Remove the built-in supports from the printed parts                                                                                                                                |       |
-| Attach the LED filter to the LED diffuser. <br/>`a drop of superglue is handy here`                                                                                                |       |
-| Install the LED filter/diffuser assembly into the cowl <br/>`it should push into place and stay put`                                                                               |       |
-| Put the Status LED into the LED carrier <br/>`the one closest to the connector`                                                                                                    |       |
-| Install the LED harness into the Cowl                                                                                                                                              |       |
-| &nbsp; &nbsp; &nbsp;1. Thread the two nozzle LEDs through the holder part of the cowl from the top and out the bottom                                                              |       |
-| &nbsp; &nbsp; &nbsp;2. Install the middle LED of the chain into it's slot                                                                                                          |       |
-| &nbsp; &nbsp; &nbsp;3. Put the last LED into the other slot                                                                                                                        |       |
-| &nbsp; &nbsp; &nbsp;4. The wires between the 2nd and 3rd LED go back up over the top of the Status LED holder                                                                      |       |
+| Remove the built-in supports from the printed parts                                                                   |<img src='docs/images/remove_supports.png' width=250 align="center"> |
+| Attach the LED filter to the LED diffuser. <br/>`a drop of superglue is handy here`                                   |<img src='docs/images/filter_assembly.png' width=100 align="center"> |
+| Install the LED filter/diffuser assembly into the cowl <br/>`it should push into place and stay put`                  |<img src='docs/images/install_filter.png' width=150 align="center"> |
+| Put the Status LED into the LED carrier <br/>`the one closest to the connector`                                       |       |
+| Install the LED harness into the Cowl                                                                                 |       |
+| &nbsp; &nbsp; &nbsp;1. Thread the two nozzle LEDs through the holder part of the cowl from the top and out the bottom |       |
+| &nbsp; &nbsp; &nbsp;2. Install the middle LED of the chain into it's slot                                             |       |
+| &nbsp; &nbsp; &nbsp;3. Put the last LED into the other slot                                                           |       |
+| &nbsp; &nbsp; &nbsp;4. The wires between the 2nd and 3rd LED go back up over the top of the Status LED holder         |       |
 | Put the 2510 HE fan in place. <br/>`It will need to be angled in, slightly top first. The wires should be exiting from the top`                                                    |       |
-| Lock the 2510 HE fan in place by sliding the HE fan duct up until the flexture locks. `Careful, don't pinch any wires`                                                             |       |
-| Tidy up the LED harness wires in the little hooks. `the left blower fan will lock them in soon`                                                                                    |       |
-| Install the 4010 inserts                                                                                                                                                           |       |
+| Lock the 2510 HE fan in place by sliding the HE fan duct up until the flexture locks. `Careful, don't pinch any wires`|       |
+| Tidy up the LED harness wires in the little hooks. `the left blower fan will lock them in soon`                       |       |
+| Install the 4010 inserts                                                                                              |       |
 | &nbsp; &nbsp; &nbsp;1. take the front cover off the 4010 blower fan `This is easy on gdstime fans. Might not be possible on Delta fans`                                            |       |
 | &nbsp; &nbsp; &nbsp;2. Use some superglue or acetone to glue the insert in place `Use the spacer to line it up properly`                                                           |       |
-| &nbsp; &nbsp; &nbsp;3. Put the front cover back on the fan                                                                                                                         |       |
-| &nbsp; &nbsp; &nbsp;4. Remove the little handle and sand/file the insert flush with the blower opening                                                                             |       |
-| Time to put the blower fans in `Slide them into each side with the opening at the bottom`                                                                                          |       |
-| Attach your hotend                                                                                                                                                                 |       |
-| Put all the square nuts in their places for later                                                                                                                                  |       |
-| &nbsp; &nbsp; &nbsp;* Two under the extruder mounting points                                                                                                                       |       |
-| &nbsp; &nbsp; &nbsp;* Two in the back behind the exturder `Xol-Carriage only`                                                                                                      |       |
-| ***Main cowl is ready, time for the extruder***                                                                                                                                    |       |
+| &nbsp; &nbsp; &nbsp;3. Put the front cover back on the fan                                                            |       |
+| &nbsp; &nbsp; &nbsp;4. Remove the little handle and sand/file the insert flush with the blower opening                |       |
+| Time to put the blower fans in `Slide them into each side with the opening at the bottom`                             |       |
+| Attach your hotend                                                                                                    |       |
+| Put all the square nuts in their places for later                                                                     |       |
+| &nbsp; &nbsp; &nbsp;* Two under the extruder mounting points                                                          |       |
+| &nbsp; &nbsp; &nbsp;* Two in the back behind the exturder `Xol-Carriage only`                                         |       |
+| ***Main cowl is ready, time for the extruder***                                                                       |       |
 | Make sure you used long enough screws to hold your stepper motor to the extruder and install the 20mm standoffs behind the motor                                                   |       |
 | Attach the toolhead board mount and toolhead board to the standoffs `THB mounts, except for Sherpa-Mini, need 2x M3 heatsets installed before this step`                           |       |
-| Put the Extruder Adapter in place on top of the cowl `Not used for Sherpa-Mini`                                                                                                    |       |
-| ℹ️ **Clockwork2 carriage/Tap users**: Don't forget the 2x M3x8 SHCS that go behind the adapter                                                                                      |       |
-| Attach the extruder to the main cowl                                                                                                                                               |       |
-| Time to wire it all up                                                                                                                                                             |       |
-| &nbsp; &nbsp; &nbsp;Make sure to keep wires out of the carriage screw keep clear zone                                                                                              |       |
-| &nbsp; &nbsp; &nbsp;Use the cable tie slots to keep everything tidy                                                                                                                |       |
-| ***Finaly, we can put this thing on the printer!***                                                                                                                                 |       |
+| Put the Extruder Adapter in place on top of the cowl `Not used for Sherpa-Mini`                                       |       |
+| ℹ️ **Clockwork2 carriage/Tap users**: Don't forget the 2x M3x8 SHCS that go behind the adapter                         |       |
+| Attach the extruder to the main cowl                                                                                  |       |
+| Time to wire it all up                                                                                                |       |
+| &nbsp; &nbsp; &nbsp;Make sure to keep wires out of the carriage screw keep clear zone                                 |       |
+| &nbsp; &nbsp; &nbsp;Use the cable tie slots to keep everything tidy                                                   |       |
+| ***Finaly, we can put this thing on the printer!***                                                                    |       |
 | Make sure that the screws that are already in the carriage have a bit over 3mm of exposed thread <br/>`If they don't, the toolhead wont be able to slot into place`                |       |
-| Put the third toolhead board mounting screw into the back of Xol carriage, leaving 4 to 5mm of exposed threads                                                                     |       |
+| Put the third toolhead board mounting screw into the back of Xol carriage, leaving 4 to 5mm of exposed threads        |       |
 | Hook the toolhead board mount over third mounting screw and slide the completed toolhead down onto the screws that are pre-placed in the carriage.                                 |       |
-| Tighten up all the screws:<br/>* 2x M3x50 bottom screws<br/>* 2x screws that were already in the carriage `access via the driver holes`<br/>* 2x M3x8 top screws<br/>&nbsp; &nbsp; &nbsp;** From the front for CW2/Tap<br/>&nbsp; &nbsp; &nbsp;** From the back for Xol Carriage<br/>* 1x M3x8 under the toolhead board (Xol Carriage only)                                                                                         |       |
+| Tighten up all the screws:<br/>* 2x M3x50 bottom screws<br/>* 2x screws that were already in the carriage `access via the driver holes`<br/>* 2x M3x8 top screws<br/>&nbsp; &nbsp; &nbsp;** From the front for CW2/Tap<br/>&nbsp; &nbsp; &nbsp;** From the back for Xol Carriage<br/>* 1x M3x8 under the toolhead board (Xol Carriage only)                            |       |
 | Remember to hook up your probe wires from the carriage to the toolhead board, if you're using one. <br/>`and your endstop wires if you haven't figured out sensorless yet`         |       |
-| Make sure you double check your software setup `especially endstop location`                                                                                                       |       |
+| Make sure you double check your software setup `especially endstop location`                                          |       |
 > [!WARNING]
 > ### Blower fan fit  
 > `If your blower fans are not a snug fit, you likely had shrinkage compensation or EM issues. You can probably get away with using some masking tape on top of a loose fan to save a reprint in a pinch.`
