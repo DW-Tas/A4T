@@ -80,7 +80,7 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 ### Assembly Steps
 
 | <center>Notes</center>                                                                                                | Images|
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----: |
 | Remove the built-in supports from the printed parts|<img src='docs/images/remove_supports.png' width=250><br/><img src='docs/images/remove_supports2.png' width=250><br/><img src='docs/images/remove_supports3.png' width=130> |
 | Attach the LED filter to the LED diffuser. <br/>`a drop of superglue is handy here`                                   |<img src='docs/images/filter_assembly.png' width=100> |
 | Install the LED filter/diffuser assembly into the cowl <br/>`it should push into place and stay put`                  |<img src='docs/images/install_filter.png' width=150> |
