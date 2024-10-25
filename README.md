@@ -135,7 +135,7 @@ These prints were completed on the same printer, with the same gcode, same filam
 ### Credits
 * Huge thanks for the support from the AHI team.
 * Also to the Crew/Contributors at Voron Design
-* Big shoutout to @yellowfish543 for the CFD insights that unlocked the potential of this design.
+* Big shoutout to [yellowfish543](https://github.com/yellowfish543/StdToolheadOpenfoam/) for the CFD insights that unlocked the potential of this design.
 
 ### Enjoy using A4T
 This work is licensed under a
