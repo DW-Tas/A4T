@@ -82,17 +82,17 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | <center>Notes</center>                                                                                                | Images|
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----: |
 | Remove the built-in supports from the printed parts|<img src='docs/images/remove_supports.png' width=250><br/><img src='docs/images/remove_supports2.png' width=250><br/><img src='docs/images/remove_supports3.png' width=130> |
-| Attach the LED filter to the LED diffuser. <br/>`a drop of superglue is handy here`                                   |<img src='docs/images/filter_assembly.png' width=100> |
-| Install the LED filter/diffuser assembly into the cowl <br/>`it should push into place and stay put`                  |<img src='docs/images/install_filter.png' width=150> |
-| Put the Status LED into the LED carrier <br/>`the one closest to the connector`                                       |       |
+| Attach the LED filter to the LED diffuser. <br/>`a drop of superglue is handy here`                                   | <img src='docs/images/filter_assembly.png' width=100> |
+| Install the LED filter/diffuser assembly into the cowl <br/>`it should push into place and stay put`                  | <img src='docs/images/install_filter.png' width=150> |
+| Put the Status LED into the LED carrier <br/>`the one closest to the connector`                                       | <img src='docs/images/LED1_in_carrier.png' width=150> |
 | Install the LED harness into the Cowl                                                                                 |       |
-| &nbsp; &nbsp; &nbsp;1. Thread the two nozzle LEDs through the holder part of the cowl from the top and out the bottom |       |
-| &nbsp; &nbsp; &nbsp;2. Install the middle LED of the chain into it's slot                                             |       |
-| &nbsp; &nbsp; &nbsp;3. Put the last LED into the other slot                                                           |       |
-| &nbsp; &nbsp; &nbsp;4. The wires between the 2nd and 3rd LED go back up over the top of the Status LED holder         |       |
+| &nbsp; &nbsp; &nbsp;1. Thread the two nozzle LEDs through the holder part of the cowl from the top and out the bottom | <img src='docs/images/LEDs_into_cowl1.png' width=150><img src='docs/images/LEDs_into_cowl2.png' width=150> |
+| &nbsp; &nbsp; &nbsp;2. Install the middle LED of the chain into it's slot                                             | <img src='docs/images/LEDs_into_cowl3.png' width=150> |
+| &nbsp; &nbsp; &nbsp;3. Put the last LED into the other slot                                                           | <img src='docs/images/LEDs_into_cowl4.png' width=150> |
+| &nbsp; &nbsp; &nbsp;4. The wires between the 2nd and 3rd LED go back up over the top of the Status LED holder         | <img src='docs/images/LEDs_into_cowl5.png' width=150> |
 | Put the 2510 HE fan in place. <br/>`It will need to be angled in, slightly top first. The wires should be exiting from the top`   | <img src='docs/images/2510_install1.png' width=150> |
 | Lock the 2510 HE fan in place by sliding the HE fan duct up until the flexture locks. `Careful, don't pinch any wires`| <img src='docs/images/2510_install2.png' width=150> |
-| Tidy up the LED harness wires in the little hooks. `the left blower fan will lock them in soon`                       |       |
+| Tidy up the LED harness wires in the little hooks. `the left blower fan will lock them in soon`                       | <img src='docs/images/LED_wires1.png' width=150> |
 | ***Install the 4010 inserts***                                                                                        |       |
 | &nbsp; &nbsp; &nbsp;1. take the front cover off the 4010 blower fan<br/>`This is easy on gdstime fans. Might not be possible on Delta fans`  | <img src='docs/images/4010_remove_front.png' width=150> |
 | &nbsp; &nbsp; &nbsp;2. Use some superglue or acetone to glue the insert in place<br/>`Use the spacer to line it up properly`                 | <img src='docs/images/glue_4010_insert.png' width=150><img src='docs/images/4010_insert_top.png' width=70> |
@@ -109,7 +109,7 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | Put the Extruder Adapter in place on top of the cowl `*Not used for Sherpa-Mini` <br/>`⚠️ Don't forget the PTFE tube between extruder and hotend`        | <img src='docs/images/extruder_adapter.png' width=150> |
 | :information_source: **Clockwork2 carriage/Tap users**: Don't forget the 2x M3x8 SHCS that go behind the adapter      | <img src='docs/images/extruder_adapter_cw2.png' width=150> |
 | Attach the extruder to the main cowl                                                                                  | <img src='docs/images/attach_extruder.png' width=150> |
-| Time to wire it all up                                                                                                |       |
+| Time to wire it all up                                                                                                | <img src='docs/images/wired_up.png' width=150> |
 | &nbsp; &nbsp; &nbsp;Make sure to keep wires out of the carriage screw keep clear zone                                 | <img src='docs/images/wire_keep_out_area.png' width=150> |
 | &nbsp; &nbsp; &nbsp;Use the cable tie slots to keep everything tidy                                                   | <img src='docs/images/cable_tie_slots.png' width=150> |
 | ***Finally, we can put this thing on the printer!***                                                                   |       |
