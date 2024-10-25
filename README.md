@@ -95,7 +95,7 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | Tidy up the LED harness wires in the little hooks. `the left blower fan will lock them in soon`                       |       |
 | Install the 4010 inserts                                                                                              |       |
 | &nbsp; &nbsp; &nbsp;1. take the front cover off the 4010 blower fan `This is easy on gdstime fans. Might not be possible on Delta fans`  | <img src='docs/images/4010_remove_front.png' width=150> |
-| &nbsp; &nbsp; &nbsp;2. Use some superglue or acetone to glue the insert in place `Use the spacer to line it up properly`                 | <img src='docs/images/glue_4010_insert.png' width=150> |
+| &nbsp; &nbsp; &nbsp;2. Use some superglue or acetone to glue the insert in place `Use the spacer to line it up properly`                 | <img src='docs/images/glue_4010_insert.png' width=150><img src='docs/images/4010_insert_top.png' width=70> |
 | &nbsp; &nbsp; &nbsp;3. Put the front cover back on the fan                                                            | <img src='docs/images/4010_insert_cover.png' width=150> |
 | &nbsp; &nbsp; &nbsp;4. Remove the little handle and sand/file the insert flush with the blower opening                | <img src='docs/images/4010_insert_flush.png' width=150> |
 | Time to put the blower fans in `Slide them into each side with the opening at the bottom`                             | <img src='docs/images/install_4010s.png' width=150> |
@@ -106,14 +106,13 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | ***Main cowl is ready, time for the extruder***                                                                       |       |
 | Make sure you used long enough screws to hold your stepper motor to the extruder and install the 20mm standoffs behind the motor                                                   |       |
 | Attach the toolhead board mount and toolhead board to the standoffs `THB mounts, except for Sherpa-Mini, need 2x M3 heatsets installed before this step`                           |       |
-| Put the Extruder Adapter in place on top of the cowl `Not used for Sherpa-Mini`                                       |       |
-| Don't forget the PTFE tube between extruder and hotend                                                                |       |
-| ℹ️ **Clockwork2 carriage/Tap users**: Don't forget the 2x M3x8 SHCS that go behind the adapter                         |       |
+| Put the Extruder Adapter in place on top of the cowl `*Not used for Sherpa-Mini` <br/>`⚠️ Don't forget the PTFE tube between extruder and hotend`|       |
+| :information_source: **Clockwork2 carriage/Tap users**: Don't forget the 2x M3x8 SHCS that go behind the adapter      |       |
 | Attach the extruder to the main cowl                                                                                  |       |
 | Time to wire it all up                                                                                                |       |
 | &nbsp; &nbsp; &nbsp;Make sure to keep wires out of the carriage screw keep clear zone                                 |       |
 | &nbsp; &nbsp; &nbsp;Use the cable tie slots to keep everything tidy                                                   |       |
-| ***Finaly, we can put this thing on the printer!***                                                                    |       |
+| ***Finaly, we can put this thing on the printer!***                                                                   |       |
 | Make sure that the screws that are already in the carriage have a bit over 3mm of exposed thread <br/>`If they don't, the toolhead wont be able to slot into place`                |       |
 | Put the third toolhead board mounting screw into the back of Xol carriage, leaving 4 to 5mm of exposed threads        |       |
 | Hook the toolhead board mount over third mounting screw and slide the completed toolhead down onto the screws that are pre-placed in the carriage.                                 |       |
