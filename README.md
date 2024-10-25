@@ -104,19 +104,19 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | &nbsp; &nbsp; &nbsp;* Two under the extruder mounting points                                                          | <img src='docs/images/install_square_nuts_ext.png' width=150> |
 | &nbsp; &nbsp; &nbsp;* Two in the back behind the exturder `Xol-Carriage only`                                         | <img src='docs/images/install_square_nuts_xol-carriage.png' width=150> |
 | ***Main cowl is ready, time for the extruder***                                                                       |       |
-| Make sure you used long enough screws to hold your stepper motor to the extruder and install the 20mm standoffs behind the motor                                                   |       |
-| Attach the toolhead board mount and toolhead board to the standoffs `THB mounts, except for Sherpa-Mini, need 2x M3 heatsets installed before this step`                           |       |
-| Put the Extruder Adapter in place on top of the cowl `*Not used for Sherpa-Mini` <br/>`⚠️ Don't forget the PTFE tube between extruder and hotend`|       |
-| :information_source: **Clockwork2 carriage/Tap users**: Don't forget the 2x M3x8 SHCS that go behind the adapter      |       |
-| Attach the extruder to the main cowl                                                                                  |       |
+| Make sure you used long enough screws to hold your stepper motor to the extruder and install the 20mm standoffs behind the motor                         | <img src='docs/images/Extruder_standoffs.png' width=150> |
+| Attach the toolhead board mount and toolhead board to the standoffs `THB mounts, except for Sherpa-Mini, need 2x M3 heatsets installed before this step` | <img src='docs/images/Extruder_standoffs_thb.png' width=150> <img src='docs/images/Extruder_standoffs_thb_pcb.png' width=150>  |
+| Put the Extruder Adapter in place on top of the cowl `*Not used for Sherpa-Mini` <br/>`⚠️ Don't forget the PTFE tube between extruder and hotend`        | <img src='docs/images/Extruder_adapter.png' width=150> |
+| :information_source: **Clockwork2 carriage/Tap users**: Don't forget the 2x M3x8 SHCS that go behind the adapter      | <img src='docs/images/Extruder_adapter_cw2.png' width=150> |
+| Attach the extruder to the main cowl                                                                                  | <img src='docs/images/attach_extruder.png' width=150> |
 | Time to wire it all up                                                                                                |       |
-| &nbsp; &nbsp; &nbsp;Make sure to keep wires out of the carriage screw keep clear zone                                 |       |
-| &nbsp; &nbsp; &nbsp;Use the cable tie slots to keep everything tidy                                                   |       |
+| &nbsp; &nbsp; &nbsp;Make sure to keep wires out of the carriage screw keep clear zone                                 | <img src='docs/images/wire_keep_out_area.png' width=150> |
+| &nbsp; &nbsp; &nbsp;Use the cable tie slots to keep everything tidy                                                   | <img src='docs/images/cable_tie_slots.png' width=150> |
 | ***Finally, we can put this thing on the printer!***                                                                   |       |
-| Ensure the screws alread in the carriage have more than 3mm of exposed thread to hook the toolhead on to. <br/>`If they don't, the toolhead won't be able to slot into place`                |       |
-| Put the third toolhead board mounting screw into the back of Xol carriage, leaving 4 to 5mm of exposed threads        |       |
-| Hook the toolhead board mount over third mounting screw and slide the completed toolhead down onto the screws that are pre-placed in the carriage.                                 |       |
-| Tighten up all the screws:<br/>* 2x M3x50 bottom screws<br/>* 2x screws that were already in the carriage `access via the driver holes`<br/>* 2x M3x8 top screws<br/>&nbsp; &nbsp; &nbsp;** From the front for CW2/Tap<br/>&nbsp; &nbsp; &nbsp;** From the back for Xol Carriage<br/>* 1x M3x8 under the toolhead board (Xol Carriage only)                            |       |
+| Ensure the screws already in the carriage have more than 3mm of exposed thread to hook the toolhead on to. <br/>`If they don't, the toolhead won't be able to slot into place`                | <img src='docs/images/carriage_screws.png' width=150> |
+| Put the third toolhead board mounting screw into the back of Xol carriage, leaving 4 to 5mm of exposed threads        | <img src='docs/images/thb_third_screw.png' width=150> |
+| Hook the toolhead board mount over third mounting screw and slide the completed toolhead down onto the screws that are pre-placed in the carriage.                                 | <img src='docs/images/hanging_toolhead_screws.png' width=150> |
+| Tighten up all the screws:<br/>* 2x M3x50 bottom screws<br/>* 2x screws that were already in the carriage `access via the driver holes`<br/>* 2x M3x8 top screws<br/>&nbsp; &nbsp; &nbsp;** From the front for CW2/Tap<br/>&nbsp; &nbsp; &nbsp;** From the back for Xol Carriage<br/>* 1x M3x8 under the toolhead board (Xol Carriage only)                            |  <img src='docs/images/final_screws_front.png' width=150>  <img src='docs/images/final_screws_back.png' width=150>       |
 | Remember to hook up your probe wires from the carriage to the toolhead board, if you're using one. <br/>`and your endstop wires if you haven't figured out sensorless yet`         |       |
 | Make sure you double check your software setup `especially endstop location`                                          |       |
 > [!WARNING]
