@@ -106,8 +106,8 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | ***Main cowl is ready, time for the extruder***                                                                       |       |
 | Make sure you used long enough screws to hold your stepper motor to the extruder and install the 20mm standoffs behind the motor                         | <img src='docs/images/Extruder_standoffs.png' width=150> |
 | Attach the toolhead board mount and toolhead board to the standoffs `THB mounts, except for Sherpa-Mini, need 2x M3 heatsets installed before this step` | <img src='docs/images/Extruder_standoffs_thb.png' width=150> <img src='docs/images/Extruder_standoffs_thb_pcb.png' width=150>  |
-| Put the Extruder Adapter in place on top of the cowl `*Not used for Sherpa-Mini` <br/>`⚠️ Don't forget the PTFE tube between extruder and hotend`        | <img src='docs/images/Extruder_adapter.png' width=150> |
-| :information_source: **Clockwork2 carriage/Tap users**: Don't forget the 2x M3x8 SHCS that go behind the adapter      | <img src='docs/images/Extruder_adapter_cw2.png' width=150> |
+| Put the Extruder Adapter in place on top of the cowl `*Not used for Sherpa-Mini` <br/>`⚠️ Don't forget the PTFE tube between extruder and hotend`        | <img src='docs/images/extruder_adapter.png' width=150> |
+| :information_source: **Clockwork2 carriage/Tap users**: Don't forget the 2x M3x8 SHCS that go behind the adapter      | <img src='docs/images/extruder_adapter_cw2.png' width=150> |
 | Attach the extruder to the main cowl                                                                                  | <img src='docs/images/attach_extruder.png' width=150> |
 | Time to wire it all up                                                                                                |       |
 | &nbsp; &nbsp; &nbsp;Make sure to keep wires out of the carriage screw keep clear zone                                 | <img src='docs/images/wire_keep_out_area.png' width=150> |
