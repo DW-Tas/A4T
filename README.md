@@ -90,12 +90,12 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | &nbsp; &nbsp; &nbsp;2. Install the middle LED of the chain into it's slot                                             |       |
 | &nbsp; &nbsp; &nbsp;3. Put the last LED into the other slot                                                           |       |
 | &nbsp; &nbsp; &nbsp;4. The wires between the 2nd and 3rd LED go back up over the top of the Status LED holder         |       |
-| Put the 2510 HE fan in place. <br/>`It will need to be angled in, slightly top first. The wires should be exiting from the top`                                                    |       |
-| Lock the 2510 HE fan in place by sliding the HE fan duct up until the flexture locks. `Careful, don't pinch any wires`|       |
+| Put the 2510 HE fan in place. <br/>`It will need to be angled in, slightly top first. The wires should be exiting from the top`   | <img src='docs/images/2510_install1.png' width=150> |
+| Lock the 2510 HE fan in place by sliding the HE fan duct up until the flexture locks. `Careful, don't pinch any wires`| <img src='docs/images/2510_install2.png' width=150> |
 | Tidy up the LED harness wires in the little hooks. `the left blower fan will lock them in soon`                       |       |
-| Install the 4010 inserts                                                                                              |       |
-| &nbsp; &nbsp; &nbsp;1. take the front cover off the 4010 blower fan `This is easy on gdstime fans. Might not be possible on Delta fans`  | <img src='docs/images/4010_remove_front.png' width=150> |
-| &nbsp; &nbsp; &nbsp;2. Use some superglue or acetone to glue the insert in place `Use the spacer to line it up properly`                 | <img src='docs/images/glue_4010_insert.png' width=150><img src='docs/images/4010_insert_top.png' width=70> |
+| ***Install the 4010 inserts***                                                                                        |       |
+| &nbsp; &nbsp; &nbsp;1. take the front cover off the 4010 blower fan<br/>`This is easy on gdstime fans. Might not be possible on Delta fans`  | <img src='docs/images/4010_remove_front.png' width=150> |
+| &nbsp; &nbsp; &nbsp;2. Use some superglue or acetone to glue the insert in place<br/>`Use the spacer to line it up properly`                 | <img src='docs/images/glue_4010_insert.png' width=150><img src='docs/images/4010_insert_top.png' width=70> |
 | &nbsp; &nbsp; &nbsp;3. Put the front cover back on the fan                                                            | <img src='docs/images/4010_insert_cover.png' width=150> |
 | &nbsp; &nbsp; &nbsp;4. Remove the little handle and sand/file the insert flush with the blower opening                | <img src='docs/images/4010_insert_flush.png' width=150> |
 | Time to put the blower fans in `Slide them into each side with the opening at the bottom`                             | <img src='docs/images/install_4010s.png' width=150> |
