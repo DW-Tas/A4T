@@ -13,8 +13,8 @@ After the last year or two looking after Xol and transforming it into Xol Toolhe
 
 A4T is built around the following constraints:
 * Dual 4010 blower fans for part cooling
-* HF hotends (designed aroun Dragon HF with an extender, so Rapido HF will also fit).
-* 2510 hotend cooling with well-directed hotend cooling airflow. (Can't beet the amazing 5v Delta 2510)
+* HF hotends (designed around Dragon HF with an extender, so Rapido HF will also fit).
+* 2510 hotend cooling with well-directed hotend cooling airflow. (Can't beat the amazing 5v Delta 2510)
 * ***Easy Assembly***
 * Custom Wrist Watch BMG mod with Sherpa-Mini spacing. Also works with Sherpa-Mini.
 * Neopixel LEDs with good part lighting from in front of the nozzle.
@@ -45,7 +45,7 @@ Xol-Carriage documentation is here: https://github.com/Armchair-Heavy-Industries
 ***`*Not including carriage hardware`***
 | Qty | Item                                          | Notes                        |
 | --- | --------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| 4   | M3 Square Nut (DIN 562)                       | Yes, squre nuts. They don't spin in a slot like hex nuts                                  |
+| 4   | M3 Square Nut (DIN 562)                       | Yes, square nuts. They don't spin in a slot like hex nuts                                  |
 | 3   | M3 x 8 SHCS                                   | 2x Top cowling mounting. 1x Toolhead board mount to back of Xol Carriage                  |
 | 2   | M3 x 6 SHCS or BHCS or Waferhead screw        | Any of these three screw heads. The important part is 6mm thread <br/> `This is only for Xol Carriage. If you use Tap or other Voron carriage, you already have SHCS where the hotend adapter slots under` <img src='docs/images/xol_carriage_screws.png' width=320 alt="tap screws" align='right'> | 
 | 2   | M3 x 50 SHCS                                  | Bottom cowling mounting screws. The same as are in the bottom of Stealthburner            |
@@ -65,9 +65,9 @@ Xol-Carriage documentation is here: https://github.com/Armchair-Heavy-Industries
 ### Print settings
 Parts are meant to be printed in 0.2mm layer heights, 0.25mm first layer should be OK. Other layer heights will cause the built-in supports to fail or fuse to the printed part.<br/>
 Print settings will depend on your printer setup / filament used / phase of the moon/etc.<br/>
-The parts are not pre-scaled for any particular filamen type. You will need to tune the filament you use for correct shrinkage compensation to get good results. Development was done with multiple brands of ASA and ASA-CF filaments (each individually tuned).<br/>
+The parts are not pre-scaled for any particular filament type. You will need to tune the filament you use for correct shrinkage compensation to get good results. Development was done with multiple brands of ASA and ASA-CF filaments (each individually tuned).<br/>
 
-General voron-like settings are a good starting point for 0.4mm wall widths (four walls, 5 top/bottom layers and 40% infil).<br/>
+General voron-like settings are a good starting point for 0.4mm wall widths (four walls, 5 top/bottom layers and 40% infill).<br/>
 The print setup was tested with 0.5mm nozzle printing 0.55mm line widths with 3 walls and 40% infill with good results.<br/>
 
 You're printing a toolhead, not a trinket or a toy. You should be aiming for high strength with strong layer adhesion. I.e. print it slower/hotter if you have bad layer adhesion. It doesn't matter if it takes over 2 hours to print the main body.<br/>
@@ -112,8 +112,8 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | Time to wire it all up                                                                                                |       |
 | &nbsp; &nbsp; &nbsp;Make sure to keep wires out of the carriage screw keep clear zone                                 |       |
 | &nbsp; &nbsp; &nbsp;Use the cable tie slots to keep everything tidy                                                   |       |
-| ***Finaly, we can put this thing on the printer!***                                                                   |       |
-| Make sure that the screws that are already in the carriage have a bit over 3mm of exposed thread <br/>`If they don't, the toolhead wont be able to slot into place`                |       |
+| ***Finally, we can put this thing on the printer!***                                                                   |       |
+| Ensure the screws alread in the carriage have more than 3mm of exposed thread to hook the toolhead on to. <br/>`If they don't, the toolhead won't be able to slot into place`                |       |
 | Put the third toolhead board mounting screw into the back of Xol carriage, leaving 4 to 5mm of exposed threads        |       |
 | Hook the toolhead board mount over third mounting screw and slide the completed toolhead down onto the screws that are pre-placed in the carriage.                                 |       |
 | Tighten up all the screws:<br/>* 2x M3x50 bottom screws<br/>* 2x screws that were already in the carriage `access via the driver holes`<br/>* 2x M3x8 top screws<br/>&nbsp; &nbsp; &nbsp;** From the front for CW2/Tap<br/>&nbsp; &nbsp; &nbsp;** From the back for Xol Carriage<br/>* 1x M3x8 under the toolhead board (Xol Carriage only)                            |       |
