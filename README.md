@@ -94,19 +94,20 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 | Lock the 2510 HE fan in place by sliding the HE fan duct up until the flexture locks. `Careful, don't pinch any wires`|       |
 | Tidy up the LED harness wires in the little hooks. `the left blower fan will lock them in soon`                       |       |
 | Install the 4010 inserts                                                                                              |       |
-| &nbsp; &nbsp; &nbsp;1. take the front cover off the 4010 blower fan `This is easy on gdstime fans. Might not be possible on Delta fans`                                            |       |
-| &nbsp; &nbsp; &nbsp;2. Use some superglue or acetone to glue the insert in place `Use the spacer to line it up properly`                                                           |       |
-| &nbsp; &nbsp; &nbsp;3. Put the front cover back on the fan                                                            |       |
-| &nbsp; &nbsp; &nbsp;4. Remove the little handle and sand/file the insert flush with the blower opening                |       |
-| Time to put the blower fans in `Slide them into each side with the opening at the bottom`                             |       |
-| Attach your hotend                                                                                                    |       |
-| Put all the square nuts in their places for later                                                                     |       |
-| &nbsp; &nbsp; &nbsp;* Two under the extruder mounting points                                                          |       |
-| &nbsp; &nbsp; &nbsp;* Two in the back behind the exturder `Xol-Carriage only`                                         |       |
+| &nbsp; &nbsp; &nbsp;1. take the front cover off the 4010 blower fan `This is easy on gdstime fans. Might not be possible on Delta fans`  | <img src='docs/images/4010_remove_front.png' width=150> |
+| &nbsp; &nbsp; &nbsp;2. Use some superglue or acetone to glue the insert in place `Use the spacer to line it up properly`                 | <img src='docs/images/glue_4010_insert.png' width=150> |
+| &nbsp; &nbsp; &nbsp;3. Put the front cover back on the fan                                                            | <img src='docs/images/4010_insert_cover.png' width=150> |
+| &nbsp; &nbsp; &nbsp;4. Remove the little handle and sand/file the insert flush with the blower opening                | <img src='docs/images/4010_insert_flush.png' width=150> |
+| Time to put the blower fans in `Slide them into each side with the opening at the bottom`                             | <img src='docs/images/install_4010s.png' width=150> |
+| Attach your hotend                                                                                                    | <img src='docs/images/install_hotend.png' width=150> |
+| Put all the square nuts in their places for later                                                                     | <img src='docs/images/install_square_nuts.png' width=150> |
+| &nbsp; &nbsp; &nbsp;* Two under the extruder mounting points                                                          | <img src='docs/images/install_square_nuts_ext.png' width=150> |
+| &nbsp; &nbsp; &nbsp;* Two in the back behind the exturder `Xol-Carriage only`                                         | <img src='docs/images/install_square_nuts_xol-carriage.png' width=150> |
 | ***Main cowl is ready, time for the extruder***                                                                       |       |
 | Make sure you used long enough screws to hold your stepper motor to the extruder and install the 20mm standoffs behind the motor                                                   |       |
 | Attach the toolhead board mount and toolhead board to the standoffs `THB mounts, except for Sherpa-Mini, need 2x M3 heatsets installed before this step`                           |       |
 | Put the Extruder Adapter in place on top of the cowl `Not used for Sherpa-Mini`                                       |       |
+| Don't forget the PTFE tube between extruder and hotend                                                                |       |
 | ℹ️ **Clockwork2 carriage/Tap users**: Don't forget the 2x M3x8 SHCS that go behind the adapter                         |       |
 | Attach the extruder to the main cowl                                                                                  |       |
 | Time to wire it all up                                                                                                |       |
