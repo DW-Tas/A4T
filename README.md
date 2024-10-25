@@ -125,6 +125,18 @@ You're printing a toolhead, not a trinket or a toy. You should be aiming for hig
 
 <br>
 
+### The Results
+After six months of development, CAD, CFD, trial and lots of error, this is a comparison of part cooling between Xol and A4T. 
+These prints were completed on the same printer, with the same gcode, same filament, the same hotend and part cooling fans (inserts installed for A4T test).
+![Comparison](docs/images/shuriken.png)
+
+![CFG](docs/images/cfd.png)
+
+### Credits
+* Huge thanks for the support from the AHI team.
+* Also to the Crew/Contributors at Voron Design
+* Big shoutout to @yellowfish543 for the CFD insights that unlocked the potential of this design.
+
 ### Enjoy using A4T
 This work is licensed under a
 [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
