@@ -1,5 +1,3 @@
-[![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
-
 # A4T: [A]nother [4]010 [T]oolhead
 <img src='docs/images/A4T_render.png' width=400 />
 
