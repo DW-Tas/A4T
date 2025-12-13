@@ -1,0 +1,493 @@
+/* A4T Configurator Styles */
+
+:root {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --bg-panel: #1f2940;
+    --accent: #e94560;
+    --accent-hover: #ff6b6b;
+    --text-primary: #eaeaea;
+    --text-secondary: #a0a0a0;
+    --border-color: #2d3a4f;
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --error: #ef4444;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.5;
+    overflow: hidden;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.logo .subtitle {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.header-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.header-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+}
+
+.header-links a:hover {
+    color: var(--accent);
+}
+
+/* Main Content */
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Config Panel */
+.config-panel {
+    width: 320px;
+    min-width: 280px;
+    background: var(--bg-panel);
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.config-panel h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.config-section {
+    margin-bottom: 1.25rem;
+}
+
+.config-section h3 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.section-note {
+    font-size: 0.75rem;
+    color: var(--text-muted, #888);
+    margin: 0 0 0.75rem 0;
+    line-height: 1.4;
+    font-style: italic;
+}
+
+.section-note a {
+    color: var(--accent-color, #4a9eff);
+    text-decoration: none;
+}
+
+.section-note a:hover {
+    text-decoration: underline;
+}
+
+.option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+/* Nested sub-options (e.g., WW-BMG sensor options) */
+.sub-options {
+    margin-left: 1.5rem;
+    padding-left: 0.75rem;
+    border-left: 2px solid var(--border-color);
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.sub-options .option {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9em;
+}
+
+.sub-options-label {
+    display: block;
+    font-size: 0.8em;
+    color: var(--accent);
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sub-options-label:first-child {
+    margin-top: 0;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.option:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.option input[type="radio"],
+.option input[type="checkbox"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.option input[type="checkbox"] {
+    border-radius: 4px;
+}
+
+.option input[type="radio"]:checked,
+.option input[type="checkbox"]:checked {
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+.option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.option input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.option-label {
+    font-size: 0.875rem;
+}
+
+.option.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* Warnings */
+.warnings {
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid var(--warning);
+    border-radius: 6px;
+    padding: 0.75rem;
+    display: none;
+}
+
+.warnings.visible {
+    display: block;
+}
+
+.warnings h3 {
+    color: var(--warning);
+}
+
+.warning-item {
+    font-size: 0.8rem;
+    color: var(--warning);
+    margin-top: 0.5rem;
+}
+
+/* Parts List */
+.parts-list {
+    list-style: none;
+    font-size: 0.8rem;
+}
+
+.parts-list li {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.parts-list li:last-child {
+    border-bottom: none;
+}
+
+.parts-list .part-name {
+    color: var(--text-primary);
+}
+
+.parts-list .part-file {
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+}
+
+.parts-list .print-note {
+    display: block;
+    color: var(--accent-color, #4a9eff);
+    font-size: 0.65rem;
+    font-style: italic;
+    margin-top: 0.15rem;
+}
+
+/* Download Button */
+.download-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-download {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-download:hover {
+    background: var(--accent-hover);
+}
+
+/* 3D Viewer */
+.viewer-container {
+    flex: 1;
+    position: relative;
+    background: var(--bg-primary);
+}
+
+#viewer-3d {
+    width: 100%;
+    height: 100%;
+}
+
+#viewer-3d canvas {
+    display: block;
+}
+
+/* Viewer Controls */
+.viewer-controls {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.25rem;
+    background: var(--bg-panel);
+    padding: 0.25rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.viewer-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.viewer-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.viewer-btn.active {
+    background: var(--accent);
+    color: white;
+}
+
+.viewer-btn-separator {
+    width: 1px;
+    background: var(--border-color);
+    margin: 0.25rem;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(26, 26, 46, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: opacity 0.3s;
+}
+
+.loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-overlay p {
+    margin-top: 1rem;
+    color: var(--text-secondary);
+}
+
+/* Dev Panel */
+.dev-panel {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+    font-size: 0.75rem;
+    max-width: 300px;
+}
+
+.dev-panel h4 {
+    margin-bottom: 0.75rem;
+    color: var(--accent);
+}
+
+.dev-controls label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.dev-controls select {
+    width: 100%;
+    padding: 0.4rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-primary);
+    margin-top: 0.25rem;
+}
+
+.transform-inputs {
+    margin-top: 0.75rem;
+}
+
+.transform-inputs > div {
+    margin-bottom: 0.5rem;
+}
+
+.transform-inputs label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+.transform-inputs input {
+    width: 60px;
+    padding: 0.3rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-primary);
+    margin-right: 0.25rem;
+}
+
+#dev-copy-transform {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+    }
+    
+    .config-panel {
+        width: 100%;
+        max-height: 40vh;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .viewer-container {
+        min-height: 60vh;
+    }
+}

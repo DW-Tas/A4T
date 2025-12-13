@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A4T Toolhead Configurator</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- JSZip for creating ZIP downloads -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>A4T Configurator</h1>
+                <span class="subtitle">Another 4010 Toolhead</span>
+            </div>
+            <div class="header-links">
+                <a href="https://github.com/Armchair-Heavy-Industries/A4T" target="_blank">GitHub</a>
+                <a href="https://discord.gg/NHbrD2AgW6" target="_blank">Discord</a>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Configuration Panel -->
+            <aside class="config-panel">
+                <h2>Configuration</h2>
+                
+                <!-- Carriage Selection -->
+                <section class="config-section">
+                    <h3>Carriage</h3>
+                    <div class="option-group" data-config="carriage">
+                        <label class="option">
+                            <input type="radio" name="carriage" value="xol-carriage" checked>
+                            <span class="option-label">Xol-Carriage</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="carriage" value="cw2-tap">
+                            <span class="option-label">CW2 / Tap</span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Hotend Selection -->
+                <section class="config-section">
+                    <h3>Hotend</h3>
+                    <div class="option-group" data-config="hotend">
+                        <label class="option">
+                            <input type="radio" name="hotend" value="dragon" checked>
+                            <span class="option-label">Dragon + MZE</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="dragon-ace">
+                            <span class="option-label">Dragon Ace</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="dragon-uhf-mini">
+                            <span class="option-label">Dragon UHF-Mini</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="dragon-ace-volcano">
+                            <span class="option-label">Dragon Ace Volcano (no MZE)</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="rapido">
+                            <span class="option-label">Rapido HF</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="bambulab">
+                            <span class="option-label">Bambulab</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="chube-compact">
+                            <span class="option-label">Chube Compact</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="revo-voron">
+                            <span class="option-label">Revo Voron</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="revolcano">
+                            <span class="option-label">ReVolcano</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="nf-crazy">
+                            <span class="option-label">NF-Crazy</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="tz-v6-stock">
+                            <span class="option-label">TZ-V6-2.0 (Stock Nozzle)</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="tz-v6-v6">
+                            <span class="option-label">TZ-V6-2.0 (V6 Nozzle)</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="dragon-uhf">
+                            <span class="option-label">Dragon UHF</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="dragon-ace-mze">
+                            <span class="option-label">Dragon Ace + MZE</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="dragon-ace-volcano-mze">
+                            <span class="option-label">Dragon Ace Volcano + MZE</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="hotend" value="rapido-uhf">
+                            <span class="option-label">Rapido UHF</span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Extruder Selection -->
+                <section class="config-section">
+                    <h3>Extruder</h3>
+                    <div class="option-group" data-config="extruder">
+                        <label class="option">
+                            <input type="radio" name="extruder" value="wwbmg" checked>
+                            <span class="option-label">Wrist Watch BMG for A4T</span>
+                        </label>
+                        
+                        <!-- WW-BMG Sensor Options (nested, only visible when WW-BMG selected) -->
+                        <div class="sub-options" id="wwbmg-options">
+                            <span class="sub-options-label">Sensor options</span>
+                            <div class="option-group" data-config="wwbmg-sensors">
+                                <label class="option">
+                                    <input type="radio" name="wwbmg-sensors" value="no-sensors" checked>
+                                    <span class="option-label">No Sensors</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="wwbmg-sensors" value="single-sensor">
+                                    <span class="option-label">Single Sensor</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="wwbmg-sensors" value="dual-sensors">
+                                    <span class="option-label">Dual Sensors</span>
+                                </label>
+                            </div>
+                            
+                            <span class="sub-options-label">Idler options</span>
+                            <div class="option-group" data-config="wwbmg-idler">
+                                <label class="option">
+                                    <input type="radio" name="wwbmg-idler" value="smooth-bearing" checked>
+                                    <span class="option-label">Smooth Bearing</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="wwbmg-idler" value="bmg-dual-drive">
+                                    <span class="option-label">BMG Dual Drive</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <label class="option">
+                            <input type="radio" name="extruder" value="sherpa-mini">
+                            <span class="option-label">Sherpa Mini</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="extruder" value="wwg2">
+                            <span class="option-label">Wrist Watch G2</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="extruder" value="orbiter">
+                            <span class="option-label">Orbiter 2.0</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="extruder" value="lgx-lite">
+                            <span class="option-label">LGX Lite</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="extruder" value="vz-hextrudort">
+                            <span class="option-label">VZ-Hextrudort</span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Toolhead Board Selection (Xol Carriage only) -->
+                <section class="config-section" id="toolhead-board-section">
+                    <h3>Toolhead Board</h3>
+                    <p class="section-note" id="toolhead-note-tap">Board mounts from A4T are designed for Xol-Carriage only. If using CW2/Tap, source a "36" sized toolhead board mount for your extruder elsewhere.</p>
+                    <p class="section-note" id="toolhead-note-xol" style="display: none;">Greyed out options indicate a mount hasn't been designed for that board/extruder combination yet. You can source one elsewhere, or design one and <a href="https://github.com/Armchair-Heavy-Industries/A4T" target="_blank">submit it to the GitHub</a> as a contribution to the project!</p>
+                    <div class="option-group" data-config="toolhead-board">
+                        <label class="option">
+                            <input type="radio" name="toolhead-board" value="none" checked>
+                            <span class="option-label">None</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="toolhead-board" value="ebb36-sht36v2">
+                            <span class="option-label">BTT EBB 36 v1.2 / Fly SHT36v2</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="toolhead-board" value="h36">
+                            <span class="option-label">Fysetc H36</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="toolhead-board" value="nh36">
+                            <span class="option-label">LDO Nitehawk 36</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="toolhead-board" value="sht36v3">
+                            <span class="option-label">Fly SHT36v3</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="toolhead-board" value="xol-pcb">
+                            <span class="option-label">Xol PCB</span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Options -->
+                <section class="config-section">
+                    <h3>Options</h3>
+                    <div class="option-group" data-config="options">
+                        <label class="option checkbox">
+                            <input type="checkbox" name="filament-cutter" value="crossbow">
+                            <span class="option-label">Crossbow Filament Cutter</span>
+                        </label>
+                        <label class="option checkbox">
+                            <input type="checkbox" name="hex-cowl" value="hex-cowl">
+                            <span class="option-label">Multi-colour Hex Cowl (.3mf)</span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Warnings -->
+                <section class="config-section warnings" id="warnings">
+                    <!-- Dynamic warnings inserted here -->
+                </section>
+
+                <!-- Parts List -->
+                <section class="config-section">
+                    <h3>Required Parts</h3>
+                    <ul class="parts-list" id="parts-list">
+                        <!-- Dynamic parts list inserted here -->
+                    </ul>
+                </section>
+
+                <!-- Download Button -->
+                <div class="download-section">
+                    <button class="btn-download" id="download-btn">
+                        Download Selected Parts
+                    </button>
+                </div>
+            </aside>
+
+            <!-- 3D Viewer -->
+            <div class="viewer-container">
+                <div id="viewer-3d"></div>
+                
+                <!-- Viewer Controls -->
+                <div class="viewer-controls">
+                    <button class="viewer-btn" id="btn-reset-view" title="Reset View">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+                    </button>
+                    <button class="viewer-btn" id="btn-explode" title="Explode View">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M13 11h-2v3H8v2h3v3h2v-3h3v-2h-3zm1-9H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
+                    </button>
+                    <button class="viewer-btn" id="btn-wireframe" title="Wireframe">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18l6.9 3.45L12 11.08 5.1 7.63 12 4.18zM4 8.82l7 3.5v7.86l-7-3.5V8.82zm9 11.36v-7.86l7-3.5v7.86l-7 3.5z"/></svg>
+                    </button>
+                    <div class="viewer-btn-separator"></div>
+                    <button class="viewer-btn active" id="btn-perspective" title="Perspective">P</button>
+                    <button class="viewer-btn" id="btn-ortho" title="Orthographic">O</button>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div class="loading-overlay" id="loading">
+                    <div class="spinner"></div>
+                    <p>Loading models...</p>
+                </div>
+
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Three.js and app scripts -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
