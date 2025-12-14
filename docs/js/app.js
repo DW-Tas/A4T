@@ -22,7 +22,7 @@ const state = {
         filamentCutter: 'none',
         hexCowl: false
     },
-    loadedModels: new Map(),  // Cache of loaded GLB models
+    loadedModels: new Map(),  // Cache of loaded GLTF models
     activeModels: new Map(),  // Currently displayed models
     exploded: false,
     wireframe: false,
@@ -154,15 +154,8 @@ function deepCloneModel(source) {
 }
 
 async function loadModel(partId, partData) {
-    // Ensure correct file extension (allows switching between gltf/glb)
-    const ext = partsManifest.fileExtension || 'glb';
-    let file = partData.file;
-    // Remove existing extension if present, then add the configured one
-    file = file.replace(/\.(gltf|glb)$/, '');
-    file = file + '.' + ext;
-    const filePath = partsManifest.basePath + file;
-    
-    console.log(`Loading model: ${filePath}`);
+    // Build file path: basePath + file + extension
+    const filePath = partsManifest.basePath + partData.file + '.' + partsManifest.fileExtension;
     
     // Check cache first
     if (state.loadedModels.has(filePath)) {
@@ -175,50 +168,18 @@ async function loadModel(partId, partData) {
             (gltf) => {
                 const model = gltf.scene;
                 
-                // Debug: log model info
-                console.log(`Loaded ${partId}:`, model);
-                let meshCount = 0;
-                model.traverse((child) => {
-                    if (child.isMesh) {
-                        meshCount++;
-                        console.log(`  Mesh: ${child.name}, geometry:`, child.geometry);
-                    }
-                });
-                console.log(`  Total meshes: ${meshCount}`);
-                
-                // Compute bounding box to check size
-                const box = new THREE.Box3().setFromObject(model);
-                const size = box.getSize(new THREE.Vector3());
-                console.log(`  Size: ${size.x.toFixed(1)} x ${size.y.toFixed(1)} x ${size.z.toFixed(1)}`);
-                
                 // Store in cache (use deep clone to prevent shared state issues)
                 state.loadedModels.set(filePath, deepCloneModel(model));
                 
                 resolve(model);
             },
-            (progress) => {
-                // Progress callback
-            },
+            undefined, // Progress callback not needed
             (error) => {
                 console.warn(`Failed to load model: ${filePath}`, error);
-                // Return null instead of placeholder - we'll skip missing models
-                resolve(null);
+                resolve(null); // Return null - we'll skip missing models
             }
         );
     });
-}
-
-function createPlaceholder(partId) {
-    // Create a small placeholder box when model isn't available
-    const geometry = new THREE.BoxGeometry(10, 10, 10);
-    const material = new THREE.MeshStandardMaterial({ 
-        color: 0xe94560,
-        transparent: true,
-        opacity: 0.3
-    });
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.name = `placeholder-${partId}`;
-    return mesh;
 }
 
 function applyTransform(model, transform) {
@@ -310,8 +271,6 @@ function partMatchesConfig(partData, config) {
 function getMatchingParts(config) {
     const matching = [];
     
-    console.log('getMatchingParts called with config:', JSON.stringify(config));
-    
     // Check if current extruder has no extruder adapter (like Sherpa Mini)
     const extruderRule = partsManifest.compatibility[config.extruder];
     const skipExtruderAdapterForExtruder = extruderRule?.noExtruderAdapter === true;
@@ -330,9 +289,6 @@ function getMatchingParts(config) {
         
         for (const [partId, partData] of Object.entries(category.variants)) {
             const matches = partMatchesConfig(partData, config);
-            if (categoryId === 'extruderAdapters') {
-                console.log(`  ${partId}: ${matches ? 'MATCH' : 'no match'}`);
-            }
             if (matches) {
                 matching.push({
                     id: partId,
@@ -344,7 +300,6 @@ function getMatchingParts(config) {
         }
     }
     
-    console.log('Matching parts:', matching.map(p => p.id));
     return matching;
 }
 
@@ -519,9 +474,6 @@ async function updateViewer() {
     
     const matchingParts = getMatchingParts(config);
     
-    console.log('Updating viewer with config:', config);
-    console.log('Matching parts:', matchingParts.map(p => p.id));
-    
     // Show loading
     document.getElementById('loading').classList.remove('hidden');
     
@@ -537,7 +489,6 @@ async function updateViewer() {
             // Apply transform
             // Skip if model failed to load
             if (!model) {
-                console.log(`Skipping ${part.id} - model not loaded`);
                 continue;
             }
             
@@ -564,7 +515,6 @@ async function updateViewer() {
             let opacity = 1.0;
             if (part.category === 'carriages') opacity = 0.6;
             else if (part.id === 'crossbow-assembly') opacity = 0.7;
-            console.log(`Applying color ${color.toString(16)} to ${part.id} (category: ${part.category})`);
             applyMaterial(model, color, opacity);
             
             // Add to scene
@@ -682,11 +632,6 @@ function centerCameraOnModels() {
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3());
     
-    console.log('=== CAMERA DEBUG ===');
-    console.log('Model group center:', center);
-    console.log('Model group size:', size);
-    console.log('Bounding box:', box.min, box.max);
-    
     const maxDim = Math.max(size.x, size.y, size.z);
     const fov = camera.fov * (Math.PI / 180);
     let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
@@ -696,8 +641,6 @@ function centerCameraOnModels() {
     if (maxDim < 1) {
         cameraZ = 0.5;  // Get very close for tiny models
     }
-    
-    console.log('Camera distance:', cameraZ);
     
     camera.position.set(center.x + cameraZ * 0.7, center.y + cameraZ * 0.5, center.z + cameraZ * 0.7);
     camera.near = maxDim * 0.001 || 0.001;
@@ -744,7 +687,6 @@ function setupEventListeners() {
             } else {
                 state.config[configKey] = e.target.checked ? e.target.value : 'none';
             }
-            console.log('Checkbox changed:', configKey, '=', state.config[configKey]);
             updateViewer();
         });
     });

@@ -1,27 +1,59 @@
 /**
  * A4T Parts Manifest
+ * ==================
  * 
- * This file defines all available parts, their compatibility rules,
- * file paths, and transform data for positioning in the 3D viewer.
+ * This file is the single source of truth for all parts in the A4T configurator.
+ * It defines available parts, compatibility rules, file paths, and transform data.
  * 
- * Transform values convert parts from print orientation to assembly position.
- * Position is in mm, rotation is in degrees.
+ * FILE NAMING CONVENTION:
+ * -----------------------
+ * - All model files are .gltf format (exported from OnShape)
+ * - DO NOT include file extensions in the 'file' property - the extension is
+ *   added automatically from 'fileExtension' setting below
+ * - STL files for download use the same base name with .stl extension
+ * - If the STL path differs from the model path, use 'stlPath' to override
+ * 
+ * ADDING A NEW PART:
+ * ------------------
+ * 1. Export the model from OnShape as .gltf
+ * 2. Place in the appropriate subfolder under models/
+ * 3. Add an entry to the relevant category in 'parts' below
+ * 4. Follow this template:
+ * 
+ *    "my-part-id": {
+ *        file: "Category/My Part Name [variant]",     // NO extension!
+ *        requires: { configKey: "value" },            // Must match exactly
+ *        requiresAny: { configKey: ["a", "b"] },      // Match any in array (optional)
+ *        excludeIf: { configKey: ["x", "y"] },        // Exclude if matches (optional)
+ *        transform: {
+ *            position: [x, y, z],
+ *            rotation: [rx, ry, rz],
+ *            scale: 1
+ *        }
+ *    }
+ * 
+ * TRANSFORM VALUES:
+ * -----------------
+ * - position: [x, y, z] in millimeters
+ * - rotation: [rx, ry, rz] in degrees
+ * - scale: multiplier (usually 1)
+ * 
+ * Note: OnShape exports in meters; globalScale converts to mm automatically.
+ * Transform positions are applied AFTER scaling.
  */
 
 export const partsManifest = {
-    // Version for cache busting
-    version: "1.0.0",
+    // Increment version when making changes (for cache busting)
+    version: "1.1.0",
     
-    // Base path for model files
+    // Base path for model files (relative to web root)
     basePath: "models/",
     
-    // File extension for models (gltf or glb)
+    // File extension for 3D models - DO NOT include this in file paths below
     fileExtension: "gltf",
     
-    // Global scale factor - Onshape exports in meters, we want mm
-    // Models are ~0.1m, we want ~100mm scale in viewer
+    // Global scale: OnShape exports in meters, we display in mm
     globalScale: 1000,
-    
     // Configuration options with their available values
     configOptions: {
         carriage: {
@@ -124,12 +156,20 @@ export const partsManifest = {
                 "carriage-xol": {
                     file: "Carriages/Xol-Carriage",
                     requires: { carriage: "xol-carriage" },
-                    transform: { position: [6.3, 0, -54.5], rotation: [270, 0, 0], scale: 1 }
+                    transform: {
+                        position: [6.3, 0, -54.5],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
                 },
                 "carriage-tap": {
                     file: "Carriages/Tap",
                     requires: { carriage: "cw2-tap" },
-                    transform: { position: [0, -45.1, -34.2], rotation: [270, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, -45.1, -34.2],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
                 }
             }
         },
@@ -146,13 +186,21 @@ export const partsManifest = {
                     file: "WW-BMG/A4T - WW-BMG",
                     requires: { extruder: "wwbmg", wwbmgSensors: "no-sensors" },
                     excludeIf: { filamentCutter: ["crossbow"] },
-                    transform: { position: [0, 29.1, -32], rotation: [270, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 29.1, -32],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
                 },
                 // No Sensors with Crossbow
                 "wwbmg-no-sensors-crossbow": {
                     file: "WW-BMG/A4T - WW-BMG - Crossbow",
                     requires: { extruder: "wwbmg", wwbmgSensors: "no-sensors", filamentCutter: "crossbow" },
-                    transform: { position: [0, 29.1, -32], rotation: [270, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 29.1, -32],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
                 },
                 // Single/Dual Sensors without Crossbow
                 "wwbmg-sensor": {
@@ -160,14 +208,22 @@ export const partsManifest = {
                     requires: { extruder: "wwbmg" },
                     requiresAny: { wwbmgSensors: ["single-sensor", "dual-sensors"] },
                     excludeIf: { filamentCutter: ["crossbow"] },
-                    transform: { position: [0, 29.1, -32], rotation: [270, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 29.1, -32],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
                 },
                 // Single/Dual Sensors with Crossbow
                 "wwbmg-sensor-crossbow": {
                     file: "WW-BMG/A4T - WW-BMG - Sensor - Crossbow",
                     requires: { extruder: "wwbmg", filamentCutter: "crossbow" },
                     requiresAny: { wwbmgSensors: ["single-sensor", "dual-sensors"] },
-                    transform: { position: [0, 29.1, -32], rotation: [270, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 29.1, -32],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
                 }
             }
         },
@@ -181,7 +237,7 @@ export const partsManifest = {
             variants: {
                 // Dragon/Rapido HF (and Dragon Ace, UHF-Mini, Ace Volcano)
                 "cowling-dragon-rapido-xol": {
-                    file: "Cowlings/A4T Cowling - Dragon_Rapido [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - Dragon_Rapido [xol-carriage]",
                     requires: { carriage: "xol-carriage" },
                     requiresAny: { hotend: ["dragon", "dragon-ace", "dragon-uhf-mini", "dragon-ace-volcano", "rapido"] },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
@@ -192,7 +248,7 @@ export const partsManifest = {
                     }
                 },
                 "cowling-dragon-rapido-xol-g2": {
-                    file: "Cowlings/A4T Cowling - Dragon_Rapido - G2-Orbiter spacing [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - Dragon_Rapido - G2-Orbiter spacing [xol-carriage]",
                     requires: { carriage: "xol-carriage" },
                     requiresAny: { hotend: ["dragon", "dragon-ace", "dragon-uhf-mini", "dragon-ace-volcano", "rapido"], extruder: ["wwg2", "orbiter"] },
                     transform: {
@@ -202,7 +258,7 @@ export const partsManifest = {
                     }
                 },
                 "cowling-dragon-rapido-cw2": {
-                    file: "Cowlings/A4T Cowling - Dragon_Rapido [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - Dragon_Rapido [cw2-tap]",
                     requires: { carriage: "cw2-tap" },
                     requiresAny: { hotend: ["dragon", "dragon-ace", "dragon-uhf-mini", "dragon-ace-volcano", "rapido"] },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
@@ -213,7 +269,7 @@ export const partsManifest = {
                     }
                 },
                 "cowling-dragon-rapido-cw2-g2": {
-                    file: "Cowlings/A4T Cowling - Dragon_Rapido - G2-Orbiter spacing [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - Dragon_Rapido - G2-Orbiter spacing [cw2-tap]",
                     requires: { carriage: "cw2-tap" },
                     requiresAny: { hotend: ["dragon", "dragon-ace", "dragon-uhf-mini", "dragon-ace-volcano", "rapido"], extruder: ["wwg2", "orbiter"] },
                     transform: {
@@ -269,80 +325,128 @@ export const partsManifest = {
                 
                 // Bambulab
                 "cowling-bambulab-xol": {
-                    file: "Cowlings/A4T Cowling - Bambulab [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - Bambulab [xol-carriage]",
                     requires: { carriage: "xol-carriage", hotend: "bambulab" },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-bambulab-xol-g2": {
-                    file: "Cowlings/A4T Cowling - Bambulab - G2-Orbiter spacing [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - Bambulab - G2-Orbiter spacing [xol-carriage]",
                     requires: { carriage: "xol-carriage", hotend: "bambulab" },
                     requiresAny: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-bambulab-cw2": {
-                    file: "Cowlings/A4T Cowling - Bambulab [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - Bambulab [cw2-tap]",
                     requires: { carriage: "cw2-tap", hotend: "bambulab" },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-bambulab-cw2-g2": {
-                    file: "Cowlings/A4T Cowling - Bambulab - G2-Orbiter spacing [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - Bambulab - G2-Orbiter spacing [cw2-tap]",
                     requires: { carriage: "cw2-tap", hotend: "bambulab" },
                     requiresAny: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 
                 // Chube Compact
                 "cowling-chube-xol": {
-                    file: "Cowlings/A4T Cowling - Chube-Compact [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - Chube-Compact [xol-carriage]",
                     requires: { carriage: "xol-carriage", hotend: "chube-compact" },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-chube-xol-g2": {
-                    file: "Cowlings/A4T Cowling - Chube-Compact - G2-Orbiter spacing [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - Chube-Compact - G2-Orbiter spacing [xol-carriage]",
                     requires: { carriage: "xol-carriage", hotend: "chube-compact" },
                     requiresAny: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-chube-cw2": {
-                    file: "Cowlings/A4T Cowling - Chube-Compact [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - Chube-Compact [cw2-tap]",
                     requires: { carriage: "cw2-tap", hotend: "chube-compact" },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-chube-cw2-g2": {
-                    file: "Cowlings/A4T Cowling - Chube-Compact - G2-Orbiter spacing [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - Chube-Compact - G2-Orbiter spacing [cw2-tap]",
                     requires: { carriage: "cw2-tap", hotend: "chube-compact" },
                     requiresAny: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 
                 // Revo Voron
                 "cowling-revo-xol": {
-                    file: "Cowlings/A4T Cowling - Revo-Voron [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - Revo-Voron [xol-carriage]",
                     requires: { carriage: "xol-carriage", hotend: "revo-voron" },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-revo-xol-g2": {
-                    file: "Cowlings/A4T Cowling - Revo-Voron - G2-Orbiter spacing [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - Revo-Voron - G2-Orbiter spacing [xol-carriage]",
                     requires: { carriage: "xol-carriage", hotend: "revo-voron" },
                     requiresAny: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-revo-cw2": {
-                    file: "Cowlings/A4T Cowling - Revo-Voron [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - Revo-Voron [cw2-tap]",
                     requires: { carriage: "cw2-tap", hotend: "revo-voron" },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-revo-cw2-g2": {
-                    file: "Cowlings/A4T Cowling - Revo-Voron - G2-Orbiter spacing [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - Revo-Voron - G2-Orbiter spacing [cw2-tap]",
                     requires: { carriage: "cw2-tap", hotend: "revo-voron" },
                     requiresAny: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 
                 // ReVolcano
@@ -350,79 +454,127 @@ export const partsManifest = {
                     file: "Cowlings/A4T Cowling - ReVolcano [xol-carriage]",
                     requires: { carriage: "xol-carriage", hotend: "revolcano" },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-revolcano-xol-g2": {
                     file: "Cowlings/A4T Cowling - ReVolcano - G2-Orbiter spacing [xol-carriage]",
                     requires: { carriage: "xol-carriage", hotend: "revolcano" },
                     requiresAny: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-revolcano-cw2": {
                     file: "Cowlings/A4T Cowling - ReVolcano [cw2-tap]",
                     requires: { carriage: "cw2-tap", hotend: "revolcano" },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-revolcano-cw2-g2": {
                     file: "Cowlings/A4T Cowling - ReVolcano - G2-Orbiter spacing [cw2-tap]",
                     requires: { carriage: "cw2-tap", hotend: "revolcano" },
                     requiresAny: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 
                 // NF-Crazy
                 "cowling-nfcrazy-xol": {
-                    file: "Cowlings/A4T Cowling - NF-Crazy [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - NF-Crazy [xol-carriage]",
                     requires: { carriage: "xol-carriage", hotend: "nf-crazy" },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-nfcrazy-xol-g2": {
-                    file: "Cowlings/A4T Cowling - NF-Crazy - G2-Orbiter spacing [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - NF-Crazy - G2-Orbiter spacing [xol-carriage]",
                     requires: { carriage: "xol-carriage", hotend: "nf-crazy" },
                     requiresAny: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-nfcrazy-cw2": {
-                    file: "Cowlings/A4T Cowling - NF-Crazy [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - NF-Crazy [cw2-tap]",
                     requires: { carriage: "cw2-tap", hotend: "nf-crazy" },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-nfcrazy-cw2-g2": {
-                    file: "Cowlings/A4T Cowling - NF-Crazy - G2-Orbiter spacing [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - NF-Crazy - G2-Orbiter spacing [cw2-tap]",
                     requires: { carriage: "cw2-tap", hotend: "nf-crazy" },
                     requiresAny: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 
                 // TZ-V6-2.0 (both Stock Nozzle and V6 Nozzle use same cowlings)
                 "cowling-tzv6-xol": {
-                    file: "Cowlings/A4T Cowling - TZ-V6-2.0 [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - TZ-V6-2.0 [xol-carriage]",
                     requires: { carriage: "xol-carriage" },
                     requiresAny: { hotend: ["tz-v6-stock", "tz-v6-v6"] },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-tzv6-xol-g2": {
-                    file: "Cowlings/A4T Cowling - TZ-V6-2.0 - G2-Orbiter spacing [xol-carriage].glb",
+                    file: "Cowlings/A4T Cowling - TZ-V6-2.0 - G2-Orbiter spacing [xol-carriage]",
                     requires: { carriage: "xol-carriage" },
                     requiresAny: { hotend: ["tz-v6-stock", "tz-v6-v6"], extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-tzv6-cw2": {
-                    file: "Cowlings/A4T Cowling - TZ-V6-2.0 [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - TZ-V6-2.0 [cw2-tap]",
                     requires: { carriage: "cw2-tap" },
                     requiresAny: { hotend: ["tz-v6-stock", "tz-v6-v6"] },
                     excludeIf: { extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "cowling-tzv6-cw2-g2": {
-                    file: "Cowlings/A4T Cowling - TZ-V6-2.0 - G2-Orbiter spacing [cw2-tap].glb",
+                    file: "Cowlings/A4T Cowling - TZ-V6-2.0 - G2-Orbiter spacing [cw2-tap]",
                     requires: { carriage: "cw2-tap" },
                     requiresAny: { hotend: ["tz-v6-stock", "tz-v6-v6"], extruder: ["wwg2", "orbiter"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 }
             }
         },
@@ -437,57 +589,101 @@ export const partsManifest = {
                 "duct-dragon": {
                     file: "Hotend Fan Ducts/A4T HE Fan Duct - Dragon",
                     requiresAny: { hotend: ["dragon", "dragon-ace", "dragon-uhf-mini", "dragon-ace-volcano"] },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "duct-rapido": {
                     file: "Hotend Fan Ducts/A4T HE Fan Duct - Rapido",
                     requires: { hotend: "rapido" },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "duct-dragon-uhf": {
                     file: "Hotend Fan Ducts/A4T HE Fan Duct - Dragon",
                     requiresAny: { hotend: ["dragon-uhf", "dragon-ace-mze", "dragon-ace-volcano-mze"] },
-                    transform: { position: [0, 7.3, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 7.3, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "duct-rapido-uhf": {
                     file: "Hotend Fan Ducts/A4T HE Fan Duct - Rapido",
                     requires: { hotend: "rapido-uhf" },
-                    transform: { position: [0, 7.3, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 7.3, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "duct-bambulab": {
                     file: "Hotend Fan Ducts/A4T HE Duct - Bambulab",
                     requires: { hotend: "bambulab" },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "duct-chube": {
                     file: "Hotend Fan Ducts/A4T HE Duct - Chube-Compact",
                     requires: { hotend: "chube-compact" },
-                    transform: { position: [0, -11, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, -11, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "duct-revo": {
                     file: "Hotend Fan Ducts/A4T HE Duct - Revo-Voron",
                     requires: { hotend: "revo-voron" },
-                    transform: { position: [0, -11, -13.6], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, -11, -13.6],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "duct-revolcano": {
                     file: "Hotend Fan Ducts/A4T HE Duct - ReVolcano",
                     requires: { hotend: "revolcano" },
-                    transform: { position: [0, 0, 0], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "duct-nfcrazy": {
                     file: "Hotend Fan Ducts/A4T HE Duct - NF-Crazy",
                     requires: { hotend: "nf-crazy" },
-                    transform: { position: [0, 0, -13.6], rotation: [-180, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 0, -13.6],
+                        rotation: [-180, 0, 180],
+                        scale: 1
+                    }
                 },
                 "duct-tzv6-stock": {
                     file: "Hotend Fan Ducts/A4T HE Duct - TZ-V6-2.0 [Stock Nozzle]",
                     requires: { hotend: "tz-v6-stock" },
-                    transform: { position: [0, -11, -13.6], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, -11, -13.6],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 },
                 "duct-tzv6-v6": {
                     file: "Hotend Fan Ducts/A4T HE Duct - TZ-V6-2.0 [V6 Nozzle]",
                     requires: { hotend: "tz-v6-v6" },
-                    transform: { position: [0, -11, -13.6], rotation: [-180, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, -11, -13.6],
+                        rotation: [-180, 0, 0],
+                        scale: 1
+                    }
                 }
             }
         },
@@ -502,7 +698,11 @@ export const partsManifest = {
                 "spacer-tzv6-stock": {
                     file: "Hotend Fan Ducts/A4T HE Duct - TZ-V6-2.0 [Stock Nozzle] - Spacer",
                     requires: { hotend: "tz-v6-stock" },
-                    transform: { position: [-30, 1.6, -31.9], rotation: [-90, 0, 0], scale: 1 }
+                    transform: {
+                        position: [-30, 1.6, -31.9],
+                        rotation: [-90, 0, 0],
+                        scale: 1
+                    }
                 }
             }
         },
@@ -515,54 +715,86 @@ export const partsManifest = {
             description: "Connects extruder to cowling",
             variants: {
                 "adapter-wwbmg-xol": {
-                    file: "Extruder Adapters/A4T - WWBMG - Extruder Adapter [xol-carriage].glb",
+                    file: "Extruder Adapters/A4T - WWBMG - Extruder Adapter [xol-carriage]",
                     requires: { carriage: "xol-carriage", extruder: "wwbmg" },
                     excludeIf: { filamentCutter: ["crossbow"] },
-                    transform: { position: [0, 27.7, -31.9], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 27.7, -31.9],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 "adapter-wwbmg-cw2": {
-                    file: "Extruder Adapters/A4T - WWBMG - Extruder Adapter [cw2-tap].glb",
+                    file: "Extruder Adapters/A4T - WWBMG - Extruder Adapter [cw2-tap]",
                     requires: { carriage: "cw2-tap", extruder: "wwbmg" },
                     excludeIf: { filamentCutter: ["crossbow"] },
-                    transform: { position: [0, 27.7, -31.9], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 27.7, -31.9],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 "adapter-wwg2-xol": {
-                    file: "Extruder Adapters/A4T - WWG2 - Extruder Adapter [xol-carriage].glb",
+                    file: "Extruder Adapters/A4T - WWG2 - Extruder Adapter [xol-carriage]",
                     requires: { carriage: "xol-carriage", extruder: "wwg2" },
                     excludeIf: { filamentCutter: ["crossbow"] },
-                    transform: { position: [0, 30.9, -31.9], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 30.9, -31.9],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 "adapter-wwg2-cw2": {
-                    file: "Extruder Adapters/A4T - WWG2 - Extruder Adapter [cw2-tap].glb",
+                    file: "Extruder Adapters/A4T - WWG2 - Extruder Adapter [cw2-tap]",
                     requires: { carriage: "cw2-tap", extruder: "wwg2" },
                     excludeIf: { filamentCutter: ["crossbow"] },
-                    transform: { position: [0, 30.9, -31.9], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 30.9, -31.9],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 "adapter-orbiter-xol": {
-                    file: "Extruder Adapters/A4T - Orbiter - Extruder Adapter [xol-carriage].glb",
+                    file: "Extruder Adapters/A4T - Orbiter - Extruder Adapter [xol-carriage]",
                     requires: { carriage: "xol-carriage", extruder: "orbiter" },
                     excludeIf: { filamentCutter: ["crossbow"] },
-                    transform: { position: [0, 30.9, -31.9], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 30.9, -31.9],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 "adapter-orbiter-cw2": {
-                    file: "Extruder Adapters/A4T - Orbiter - Extruder Adapter [cw2-tap].glb",
+                    file: "Extruder Adapters/A4T - Orbiter - Extruder Adapter [cw2-tap]",
                     requires: { carriage: "cw2-tap", extruder: "orbiter" },
                     excludeIf: { filamentCutter: ["crossbow"] },
-                    transform: { position: [0, 30.9, -31.9], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 30.9, -31.9],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 "adapter-lgx-xol": {
-                    file: "Extruder Adapters/A4T - LGX-L_VZHex Adapter [xol-carriage].glb",
+                    file: "Extruder Adapters/A4T - LGX-L_VZHex Adapter [xol-carriage]",
                     requires: { carriage: "xol-carriage" },
                     requiresAny: { extruder: ["lgx-lite", "vz-hextrudort"] },
                     excludeIf: { filamentCutter: ["crossbow"] },
-                    transform: { position: [0, 31.5, -31.9], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 31.5, -31.9],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 "adapter-lgx-cw2": {
-                    file: "Extruder Adapters/A4T - LGX-L_VZHex Adapter [cw2-tap].glb",
+                    file: "Extruder Adapters/A4T - LGX-L_VZHex Adapter [cw2-tap]",
                     requires: { carriage: "cw2-tap" },
                     requiresAny: { extruder: ["lgx-lite", "vz-hextrudort"] },
                     excludeIf: { filamentCutter: ["crossbow"] },
-                    transform: { position: [0, 31.5, -31.9], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 31.5, -31.9],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 
                 // ----------------------------------------
@@ -574,26 +806,42 @@ export const partsManifest = {
                     file: "Extruder Adapters/Crossbow cutter holder - WW-BMG (Sherpa-Mini spacing)",
                     stlPath: "Extruder Adapters/For Crossbow filament cutter/Crossbow cutter holder - WW-BMG (Sherpa-Mini spacing).stl",
                     requires: { extruder: "wwbmg", filamentCutter: "crossbow" },
-                    transform: { position: [99.9, 29.1, -33.8], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [99.9, 29.1, -33.8],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 "crossbow-wwg2": {
                     file: "Extruder Adapters/Crossbow cutter holder - WW-G2 (Oribiter2 Spacing)",
                     stlPath: "Extruder Adapters/For Crossbow filament cutter/Crossbow cutter holder - WW-G2 (Oribiter2 Spacing).stl",
                     requires: { extruder: "wwg2", filamentCutter: "crossbow" },
-                    transform: { position: [0, 30.9, -31.9], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 30.9, -31.9],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 "crossbow-orbiter": {
                     file: "Extruder Adapters/Crossbow cutter holder - Orbiter2",
                     stlPath: "Extruder Adapters/For Crossbow filament cutter/Crossbow cutter holder - Orbiter2.stl",
                     requires: { extruder: "orbiter", filamentCutter: "crossbow" },
-                    transform: { position: [0, 30.9, -31.9], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 30.9, -31.9],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 "crossbow-lgx": {
                     file: "Extruder Adapters/Crossbow cutter holder - LGX-L_VZHex",
                     stlPath: "Extruder Adapters/For Crossbow filament cutter/Crossbow cutter holder - LGX-L_VZHex.stl",
                     requiresAny: { extruder: ["lgx-lite", "vz-hextrudort"] },
                     requires: { filamentCutter: "crossbow" },
-                    transform: { position: [0, 31.5, -31.9], rotation: [90, 0, 180], scale: 1 }
+                    transform: {
+                        position: [0, 31.5, -31.9],
+                        rotation: [90, 0, 180],
+                        scale: 1
+                    }
                 },
                 
                 // Crossbow Assembly visual (shown when crossbow option is enabled)
@@ -602,7 +850,11 @@ export const partsManifest = {
                     file: "Extruder Adapters/CrossbowAssembly",
                     requires: { filamentCutter: "crossbow" },
                     visualOnly: true,  // Don't include in STL downloads
-                    transform: { position: [0, 22.6, -31.9], rotation: [-90, 0, 0], scale: 1 }
+                    transform: {
+                        position: [0, 22.6, -31.9],
+                        rotation: [-90, 0, 0],
+                        scale: 1
+                    }
                 }
             }
         }
@@ -615,14 +867,22 @@ export const partsManifest = {
         //     description: "Neopixel LED mount and diffuser",
         //     variants: {
         //         "led-holder": {
-        //             file: "LED Holder + Filter/A4T LED Holder.glb",
+        //             file: "LED Holder + Filter/A4T LED Holder",
         //             always: true,  // Always included
-        //             transform: { position: [0, 27.7, -31.9], rotation: [90, 0, 180], scale: 1 }
+        //             transform: {
+        //                 position: [0, 27.7, -31.9],
+        //                 rotation: [90, 0, 180],
+        //                 scale: 1
+        //             }
         //         },
         //         "led-filter": {
-        //             file: "LED Holder + Filter/A4T LED Filter.glb",
+        //             file: "LED Holder + Filter/A4T LED Filter",
         //             always: true,
-        //             transform: { position: [0, 27.7, -31.9], rotation: [90, 0, 180], scale: 1 }
+        //             transform: {
+        //                 position: [0, 27.7, -31.9],
+        //                 rotation: [90, 0, 180],
+        //                 scale: 1
+        //             }
         //         }
         //     }
         // },
@@ -635,29 +895,49 @@ export const partsManifest = {
         //     description: "Mount for CAN toolhead board",
         //     variants: {
         //         "thb-wwbmg": {
-        //             file: "Toolhead Board Mounts/A4T - THB Mount - WWBMG.glb",
+        //             file: "Toolhead Board Mounts/A4T - THB Mount - WWBMG",
         //             requires: { extruder: "wwbmg" },
-        //             transform: { position: [0, 27.7, -31.9], rotation: [90, 0, 180], scale: 1 }
+        //             transform: {
+        //                 position: [0, 27.7, -31.9],
+        //                 rotation: [90, 0, 180],
+        //                 scale: 1
+        //             }
         //         },
         //         "thb-wwg2": {
-        //             file: "Toolhead Board Mounts/A4T - THB Mount - WWG2.glb",
+        //             file: "Toolhead Board Mounts/A4T - THB Mount - WWG2",
         //             requires: { extruder: "wwg2" },
-        //             transform: { position: [0, 27.7, -31.9], rotation: [90, 0, 180], scale: 1 }
+        //             transform: {
+        //                 position: [0, 27.7, -31.9],
+        //                 rotation: [90, 0, 180],
+        //                 scale: 1
+        //             }
         //         },
         //         "thb-sherpa": {
-        //             file: "Toolhead Board Mounts/A4T - THB Mount - Sherpa-Mini.glb",
+        //             file: "Toolhead Board Mounts/A4T - THB Mount - Sherpa-Mini",
         //             requires: { extruder: "sherpa-mini" },
-        //             transform: { position: [0, 27.7, -31.9], rotation: [90, 0, 180], scale: 1 }
+        //             transform: {
+        //                 position: [0, 27.7, -31.9],
+        //                 rotation: [90, 0, 180],
+        //                 scale: 1
+        //             }
         //         },
         //         "thb-lgx": {
-        //             file: "Toolhead Board Mounts/A4T - THB Mount - LGX-L.glb",
+        //             file: "Toolhead Board Mounts/A4T - THB Mount - LGX-L",
         //             requires: { extruder: "lgx-lite" },
-        //             transform: { position: [0, 27.7, -31.9], rotation: [90, 0, 180], scale: 1 }
+        //             transform: {
+        //                 position: [0, 27.7, -31.9],
+        //                 rotation: [90, 0, 180],
+        //                 scale: 1
+        //             }
         //         },
         //         "thb-vzhex": {
-        //             file: "Toolhead Board Mounts/A4T - THB Mount - VZ-Hex.glb",
+        //             file: "Toolhead Board Mounts/A4T - THB Mount - VZ-Hex",
         //             requires: { extruder: "vz-hextrudort" },
-        //             transform: { position: [0, 27.7, -31.9], rotation: [90, 0, 180], scale: 1 }
+        //             transform: {
+        //                 position: [0, 27.7, -31.9],
+        //                 rotation: [90, 0, 180],
+        //                 scale: 1
+        //             }
         //         }
         //     }
         // }
@@ -874,12 +1154,3 @@ export const partsManifest = {
         boardMounts: 0x2a2a2a       // Dark gray
     }
 };
-
-/**
- * Get the filename stem for download links
- */
-export function getDownloadPath(partFile, format = 'stl') {
-    // Convert GLB path to STL path
-    const baseName = partFile.replace('.glb', '').replace('Cowlings/', '').replace('Hotend Fan Ducts/', '').replace('Extruder Adapters/', '');
-    return `STL/${baseName}.stl`;
-}

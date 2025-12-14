@@ -14,24 +14,29 @@ const path = require('path');
 const manifestPath = path.join(__dirname, '..', 'js', 'partsManifest.js');
 const manifestContent = fs.readFileSync(manifestPath, 'utf8');
 
-// Find where the export function starts (marks end of partsManifest)
-const exportIdx = manifestContent.indexOf('export function');
-if (exportIdx === -1) {
-    console.error('Could not find export marker');
+// Find where partsManifest starts (after the declaration)
+const declarationMatch = manifestContent.match(/export const partsManifest = /);
+if (!declarationMatch) {
+    console.error('Could not find partsManifest declaration');
     process.exit(1);
 }
 
-// Get content up to the export, then find the last };
-const contentBeforeExport = manifestContent.substring(0, exportIdx);
-const lastBraceIdx = contentBeforeExport.lastIndexOf('};');
-if (lastBraceIdx === -1) {
+// Start from the opening brace after "export const partsManifest = "
+const startIdx = manifestContent.indexOf('{', declarationMatch.index);
+if (startIdx === -1) {
+    console.error('Could not find start of partsManifest object');
+    process.exit(1);
+}
+
+// The partsManifest object ends with "};" on its own line - find the last occurrence
+const lastBraceIdx = manifestContent.lastIndexOf('};');
+if (lastBraceIdx === -1 || lastBraceIdx < startIdx) {
     console.error('Could not find end of partsManifest');
     process.exit(1);
 }
 
-// Extract just the object declaration
-const declarationStart = contentBeforeExport.indexOf('const partsManifest = ');
-const objectContent = contentBeforeExport.substring(declarationStart + 'const partsManifest = '.length, lastBraceIdx + 1);
+// Extract just the object content
+const objectContent = manifestContent.substring(startIdx, lastBraceIdx + 1);
 
 let partsManifest;
 try {
@@ -53,18 +58,14 @@ const GITHUB_3MF_BASE = 'https://raw.githubusercontent.com/Armchair-Heavy-Indust
 // ============================================
 
 const CONFIG_OPTIONS = {
-    carriage: ['cw2-tap', 'xol-carriage'],
+    carriage: ['xol-carriage', 'cw2-tap'],
     hotend: [
-        'rapido', 'rapido-uhf',
-        'dragon-sf', 'dragon-hf', 'dragon-uhf',
-        'dragonace',
-        'revo-voron',
-        'bambulab',
-        'nf-crazy',
-        'chube-compact',
-        'tz-v6-sf', 'tz-v6-hf'
+        'dragon', 'dragon-ace', 'dragon-uhf-mini', 'dragon-ace-volcano',
+        'rapido', 'bambulab', 'chube-compact', 'revo-voron', 'revolcano',
+        'nf-crazy', 'tz-v6-stock', 'tz-v6-v6',
+        'dragon-uhf', 'dragon-ace-mze', 'dragon-ace-volcano-mze', 'rapido-uhf'
     ],
-    extruder: ['wwbmg', 'wwg2', 'sherpa-mini', 'orbiter', 'lgx-lite', 'vz-hextrudort'],
+    extruder: ['wwbmg', 'sherpa-mini', 'wwg2', 'orbiter', 'lgx-lite', 'vz-hextrudort'],
     wwbmgSensors: ['no-sensors', 'single', 'dual'],
     wwbmgIdler: ['standard', 'filament-sensor'],
     toolheadBoard: ['none', 'ebb36', 'ebb42', 'sht36', 'sht42', 'mellow-fly', 'skr-pico', 'huvud'],
