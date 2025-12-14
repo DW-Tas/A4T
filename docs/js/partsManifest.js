@@ -857,7 +857,7 @@ export const partsManifest = {
                     }
                 }
             }
-        }
+        },
         
         // ========================================
         // LED HOLDERS (disabled until files added)
@@ -941,6 +941,106 @@ export const partsManifest = {
         //         }
         //     }
         // }
+        
+        // ========================================
+        // TOOLHEAD BOARD MOUNTS (rendered models)
+        // ========================================
+        boardMounts: {
+            category: "Toolhead Board Mount",
+            description: "Mount for CAN toolhead board",
+            variants: {
+                "thb-lgx-ebb36-render": {
+                    file: "Toolhead Board Mounts/A4T - THB Mount - LGX-L",
+                    requires: { extruder: "lgx-lite", toolheadBoard: "ebb36-sht36v2", carriage: "xol-carriage" },
+                    transform: {
+                        position: [-0.3, 50.2, -66.9],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                },
+                "thb-sherpa-ebb36-render": {
+                    file: "Toolhead Board Mounts/A4T - THB Mount - Sherpa-Mini",
+                    requires: { extruder: "sherpa-mini", toolheadBoard: "ebb36-sht36v2", carriage: "xol-carriage" },
+                    transform: {
+                        position: [0.2, 48.7, -66.9],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                },
+                "thb-vzhex-ebb36-render": {
+                    file: "Toolhead Board Mounts/A4T - THB Mount - VZ-Hex",
+                    requires: { extruder: "vz-hextrudort", toolheadBoard: "ebb36-sht36v2", carriage: "xol-carriage" },
+                    transform: {
+                        position: [5.8, 47.4, -66.9],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                },
+                "thb-wwbmg-h36-render": {
+                    file: "Toolhead Board Mounts/A4T - THB Mount - WWBMG - H36",
+                    requires: { extruder: "wwbmg", toolheadBoard: "h36", carriage: "xol-carriage" },
+                    transform: {
+                        position: [7.6, 46.8, -66.9],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                },
+                "thb-wwbmg-nh36-render": {
+                    file: "Toolhead Board Mounts/A4T - THB Mount - WWBMG - NH36",
+                    requires: { extruder: "wwbmg", toolheadBoard: "nh36", carriage: "xol-carriage" },
+                    transform: {
+                        position: [8.3, 56.6, -66.9],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                },
+                "thb-wwbmg-sht36v3-render": {
+                    file: "Toolhead Board Mounts/A4T - THB Mount - WWBMG - SHT36v3",
+                    requires: { extruder: "wwbmg", toolheadBoard: "sht36v3", carriage: "xol-carriage" },
+                    transform: {
+                        position: [7.6, 45.5, -66.9],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                },
+                "thb-wwbmg-ebb36-render": {
+                    file: "Toolhead Board Mounts/A4T - THB Mount - WWBMG",
+                    requires: { extruder: "wwbmg", toolheadBoard: "ebb36-sht36v2", carriage: "xol-carriage" },
+                    transform: {
+                        position: [7.6, 45.3, -66.9],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                },
+                "thb-wwg2-ebb36-render": {
+                    file: "Toolhead Board Mounts/A4T - THB Mount - WWG2",
+                    requires: { extruder: "wwg2", toolheadBoard: "ebb36-sht36v2", carriage: "xol-carriage" },
+                    transform: {
+                        position: [-7, 61.1, -73.9],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                },
+                "thb-orbiter-xolpcb-render": {
+                    file: "Toolhead Board Mounts/A4T - Xol_PCB Mount - Orbiter v2.0",
+                    requires: { extruder: "orbiter", toolheadBoard: "xol-pcb", carriage: "xol-carriage" },
+                    transform: {
+                        position: [-6.7, 61.6, -68],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                },
+                "thb-wwbmg-xolpcb-render": {
+                    file: "Toolhead Board Mounts/A4T - Xol_PCB Mount - WWBMG",
+                    requires: { extruder: "wwbmg", toolheadBoard: "xol-pcb", carriage: "xol-carriage" },
+                    transform: {
+                        position: [8.8, 61, -66.9],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                }
+            }
+        }
     },
     
     // STL-only parts (not rendered in 3D viewer, but included in downloads)
@@ -956,7 +1056,6 @@ export const partsManifest = {
             variants: {
                 "backflow-inhibitor": {
                     stlFile: "Backflow Inhibitors/A4T Backflow Inhibitor [x2].stl",
-                    quantity: 2,
                     requires: {}  // No requirements - always included
                 },
                 "backflow-install-tool": {

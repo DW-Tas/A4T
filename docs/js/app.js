@@ -71,6 +71,10 @@ function initThreeJS() {
     modelGroup = new THREE.Group();
     scene.add(modelGroup);
     
+    // Expose for dev tools
+    window.modelGroup = modelGroup;
+    window.scene = scene;
+    
     // Handle resize
     window.addEventListener('resize', onWindowResize);
     
@@ -558,9 +562,10 @@ function updatePartsList(parts, stlOnlyParts = [], config = {}) {
     // Combine both rendered parts and STL-only parts
     // Exclude carriages (from other sources), wwbmg (STL files handled separately),
     // hotendSpacers (included in the HE Duct STL, separate gltf for visualization only),
-    // and visualOnly parts
+    // visualOnly parts, and STL-only board mounts (we now have rendered versions)
     const allParts = [...parts, ...stlOnlyParts].filter(p => 
-        p.category !== 'carriages' && p.category !== 'wwbmg' && p.category !== 'hotendSpacers' && !p.visualOnly
+        p.category !== 'carriages' && p.category !== 'wwbmg' && p.category !== 'hotendSpacers' && 
+        p.category !== 'toolheadBoardMounts' && !p.visualOnly
     );
     
     // Group by category
@@ -573,8 +578,22 @@ function updatePartsList(parts, stlOnlyParts = [], config = {}) {
     }
     
     for (const [category, categoryParts] of Object.entries(byCategory)) {
+        // Create category header
+        const headerLi = document.createElement('li');
+        headerLi.className = 'part-category-header';
+        
+        // Calculate total quantity for category if applicable
+        const totalQty = categoryParts.reduce((sum, p) => sum + (p.quantity || 1), 0);
+        const qtyText = categoryParts.length > 1 || totalQty > 1 ? ` (${categoryParts.length} files)` : '';
+        
+        headerLi.innerHTML = `<span class="part-name">${category}${qtyText}</span>`;
+        listEl.appendChild(headerLi);
+        
+        // Add each file under the category
         for (const part of categoryParts) {
             const li = document.createElement('li');
+            li.className = 'part-file-entry';
+            
             // Handle both gltf parts (file) and STL-only parts (stlFile)
             let fileName;
             if (part.stlFile) {
@@ -587,19 +606,17 @@ function updatePartsList(parts, stlOnlyParts = [], config = {}) {
             
             // Transform cowling filename if hex cowl option is enabled
             if (config.hexCowl && part.category === 'cowlings') {
-                // Change from "A4T Cowling - Dragon_Rapido [xol-carriage].stl"
-                // To "Hex A4T Cowling - Dragon_Rapido [xol-carriage].3mf"
                 const baseName = fileName.replace('.stl', '');
                 fileName = 'Hex ' + baseName + '.3mf';
             }
             
             // Build quantity and note text
             let quantityText = part.quantity && part.quantity > 1 ? ` (x${part.quantity})` : '';
-            let noteText = part.printNote ? ` <span class="print-note">${part.printNote}</span>` : '';
+            let noteText = part.printNote ? `<span class="print-note">${part.printNote}</span>` : '';
             
             li.innerHTML = `
-                <span class="part-name">${category}${quantityText}</span>
-                <span class="part-file">${fileName}${noteText}</span>
+                <span class="part-file">${fileName}${quantityText}</span>
+                ${noteText}
             `;
             listEl.appendChild(li);
         }
@@ -696,7 +713,8 @@ function setupEventListeners() {
         centerCameraOnModels();
     });
     
-    document.getElementById('btn-explode').addEventListener('click', toggleExplodedView);
+    // Explode view disabled - uncomment if re-enabled in HTML
+    // document.getElementById('btn-explode').addEventListener('click', toggleExplodedView);
     document.getElementById('btn-wireframe').addEventListener('click', toggleWireframe);
     
     document.getElementById('btn-perspective').addEventListener('click', () => {

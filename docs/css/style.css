@@ -257,19 +257,31 @@ body {
 }
 
 .parts-list li {
-    padding: 0.4rem 0;
+    padding: 0.3rem 0;
+}
+
+/* Category header row */
+.parts-list .part-category-header {
+    padding: 0.5rem 0 0.2rem 0;
     border-bottom: 1px solid var(--border-color);
+    margin-top: 0.5rem;
+}
+
+.parts-list .part-category-header:first-child {
+    margin-top: 0;
+}
+
+.parts-list .part-category-header .part-name {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* File entry row */
+.parts-list .part-file-entry {
+    padding: 0.2rem 0 0.2rem 0.5rem;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-}
-
-.parts-list li:last-child {
-    border-bottom: none;
-}
-
-.parts-list .part-name {
-    color: var(--text-primary);
+    align-items: baseline;
 }
 
 .parts-list .part-file {
@@ -278,11 +290,11 @@ body {
 }
 
 .parts-list .print-note {
-    display: block;
     color: var(--accent-color, #4a9eff);
     font-size: 0.65rem;
     font-style: italic;
-    margin-top: 0.15rem;
+    margin-left: 0.5rem;
+    text-align: right;
 }
 
 /* Download Button */
