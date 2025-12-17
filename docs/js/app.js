@@ -257,18 +257,17 @@ function applyMaterial(model, color, opacity = 1.0, partId = null, isHexCowl = f
             }
             // Apply different colors to WW-BMG sub-parts using custom colors
             else if (partId && partId.startsWith('wwbmg')) {
-                // Motor plate - accent color (includes sensor variants)
-                if (allNames.includes('motor_plate')) {
-                    meshColor = state.accentColor;
-                    meshOpacity = 1.0;
-                // Tension arm - accent color (includes idler variants)
-                } else if (allNames.includes('tension_arm')) {
-                    meshColor = state.accentColor;
-                    meshOpacity = 1.0;
-                // Main body - main color
-                } else if (allNames.includes('main_body')) {
-                    meshColor = state.mainColor;
-                    meshOpacity = 1.0;
+                const wwbmgPartColors = {
+                    'motor_plate': state.accentColor,  // Includes sensor variants
+                    'tension_arm': state.accentColor,  // Includes idler variants
+                    'main_body': state.mainColor
+                };
+                for (const [partName, partColor] of Object.entries(wwbmgPartColors)) {
+                    if (allNames.includes(partName)) {
+                        meshColor = partColor;
+                        meshOpacity = 1.0;
+                        break;
+                    }
                 }
             }
             
@@ -884,6 +883,43 @@ function setupEventListeners() {
     
     // Download button
     document.getElementById('download-btn').addEventListener('click', downloadParts);
+    
+    // Mobile scroll indicator
+    setupScrollIndicator();
+}
+
+// Scroll indicator constants
+const SCROLL_THRESHOLD_PX = 20;
+const RENDER_DELAY_MS = 100;
+
+/**
+ * Setup scroll indicator for mobile config panel
+ */
+function setupScrollIndicator() {
+    const configPanel = document.querySelector('.config-panel');
+    const configContent = document.querySelector('.config-panel-content');
+    
+    if (!configPanel || !configContent) return;
+    
+    function updateScrollIndicator() {
+        const scrollTop = configContent.scrollTop;
+        const scrollHeight = configContent.scrollHeight;
+        const clientHeight = configContent.clientHeight;
+        
+        // Check if there's content to scroll
+        const hasMoreContent = scrollHeight - scrollTop - clientHeight > SCROLL_THRESHOLD_PX;
+        
+        configPanel.classList.toggle('has-more-content', hasMoreContent);
+    }
+    
+    // Check on scroll
+    configContent.addEventListener('scroll', updateScrollIndicator);
+    
+    // Check on resize (note: not removed since this is a single-page app)
+    window.addEventListener('resize', updateScrollIndicator);
+    
+    // Initial check (with slight delay to ensure content is rendered)
+    setTimeout(updateScrollIndicator, RENDER_DELAY_MS);
 }
 
 function toggleWireframe() {

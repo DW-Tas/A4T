@@ -84,8 +84,41 @@ body {
     min-width: 280px;
     background: var(--bg-panel);
     border-right: 1px solid var(--border-color);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.config-panel-content {
+    flex: 1;
     overflow-y: auto;
     padding: 1rem;
+}
+
+.scroll-indicator {
+    display: none;
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    z-index: 1;
+    animation: bounce 1.5s ease-in-out infinite;
+}
+
+.scroll-indicator svg {
+    display: block;
+    margin: 0 auto 2px;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(3px); }
 }
 
 .config-panel h2 {
@@ -536,6 +569,14 @@ body {
         max-height: 40vh;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
+    }
+    
+    .scroll-indicator {
+        display: block;
+    }
+    
+    .config-panel:not(.has-more-content) .scroll-indicator {
+        display: none;
     }
     
     .viewer-container {
