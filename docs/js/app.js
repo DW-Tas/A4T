@@ -579,10 +579,10 @@ async function updateViewer() {
     const currentPartIds = new Set(state.activeModels.keys());
     
     // Find parts to remove (in current but not in new)
-    let toRemove = [...currentPartIds].filter(id => !newPartIds.has(id));
+    const toRemoveSet = new Set([...currentPartIds].filter(id => !newPartIds.has(id)));
     
     // Find parts to add (in new but not in current)
-    let toAdd = matchingParts.filter(p => !currentPartIds.has(p.id));
+    const toAddSet = new Set(matchingParts.filter(p => !currentPartIds.has(p.id)).map(p => p.id));
     
     // Check if any existing cowlings need to be reloaded due to hexCowl change
     for (const [partId, model] of state.activeModels) {
@@ -592,14 +592,15 @@ async function updateViewer() {
             const shouldBeHex = config.hexCowl;
             if (currentIsHex !== shouldBeHex) {
                 // Cowling hex state changed - need to reload
-                toRemove.push(partId);
-                const matchingPart = matchingParts.find(p => p.id === partId);
-                if (matchingPart) {
-                    toAdd.push(matchingPart);
-                }
+                toRemoveSet.add(partId);
+                toAddSet.add(partId);
             }
         }
     }
+    
+    // Convert sets back to arrays, getting full part data for toAdd
+    const toRemove = [...toRemoveSet];
+    const toAdd = matchingParts.filter(p => toAddSet.has(p.id));
     
     // Only show loading if we need to load new models (not cached)
     const needsLoading = toAdd.some(part => {
@@ -632,6 +633,11 @@ async function updateViewer() {
     // Add new parts
     for (const part of toAdd) {
         try {
+            // Safety check: ensure we don't add duplicates
+            if (state.activeModels.has(part.id)) {
+                continue;
+            }
+            
             // Determine if this is a hex cowling
             const isHexCowl = config.hexCowl && part.category === 'cowlings';
             
