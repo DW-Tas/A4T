@@ -75,7 +75,7 @@ export const partsManifest = {
                 { id: "chube-compact", label: "Chube Compact" },
                 { id: "revo-voron", label: "Revo Voron" },
                 { id: "revolcano", label: "ReVolcano" },
-                { id: "nf-crazy", label: "NF-Crazy" },
+                { id: "nf-crazy", label: "NF-Crazy Volcano" },
                 { id: "tz-v6-stock", label: "TZ-V6-2.0 (Stock Nozzle)" },
                 { id: "tz-v6-v6", label: "TZ-V6-2.0 (V6 Nozzle)" },
                 { id: "dragon-uhf", label: "Dragon UHF", noExtruderAdapter: true },
@@ -168,6 +168,176 @@ export const partsManifest = {
                     transform: {
                         position: [0, -45.1, -34.2],
                         rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                }
+            }
+        },
+        
+        // ========================================
+        // HOTENDS (visual reference models)
+        // ========================================
+        hotends: {
+            category: "Hotend",
+            description: "Hotend visual reference model",
+            variants: {
+                "hotend-dragon": {
+                    file: "Hotends/dragon",
+                    requires: { hotend: "dragon" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, -43.7, -32],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-dragon-ace": {
+                    file: "Hotends/dragon-ace",
+                    requires: { hotend: "dragon-ace" },
+                    visualOnly: true,
+                    transform: {
+                        position: [-17, -35.8, -39],
+                        rotation: [270, 90, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-dragon-uhf-mini": {
+                    file: "Hotends/dragon-uhf-mini",
+                    requires: { hotend: "dragon-uhf-mini" },
+                    visualOnly: true,
+                    transform: {
+                        position: [50, -43.5, -32],
+                        rotation: [270, 0, 180],
+                        scale: 1
+                    }
+                },
+                "hotend-dragon-ace-volcano": {
+                    file: "Hotends/dragon-ace-volcano",
+                    requires: { hotend: "dragon-ace-volcano" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, -10.5, -47],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-rapido": {
+                    file: "Hotends/rapido",
+                    requires: { hotend: "rapido" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, -31.3, -32],
+                        rotation: [90, 0, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-bambulab": {
+                    file: "Hotends/bambulab",
+                    requires: { hotend: "bambulab" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, -43.5, -32],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-chube-compact": {
+                    file: "Hotends/chube-compact",
+                    requires: { hotend: "chube-compact" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, -30, -31.4],
+                        rotation: [270, 0, 90],
+                        scale: 1
+                    }
+                },
+                "hotend-revo-voron": {
+                    file: "Hotends/revo-voron",
+                    requires: { hotend: "revo-voron" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, 0, 0],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-revolcano": {
+                    file: "Hotends/revolcano",
+                    requires: { hotend: "revolcano" },
+                    visualOnly: true,
+                    transform: {
+                        position: [-25.1, -37.2, 33.6],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-nf-crazy": {
+                    file: "Hotends/nf-crazy",
+                    requires: { hotend: "nf-crazy" },
+                    visualOnly: true,
+                    transform: {
+                        position: [-250, -43.5, -31.8],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-tz-v6-stock": {
+                    file: "Hotends/tz-v6-stock",
+                    requires: { hotend: "tz-v6-stock" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, -17.4, -31.9],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-tz-v6-v6": {
+                    file: "Hotends/tz-v6-v6",
+                    requires: { hotend: "tz-v6-v6" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, -42.2, -31.8],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-dragon-uhf": {
+                    file: "Hotends/dragon-uhf",
+                    requires: { hotend: "dragon-uhf" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, -43.7, -31.8],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-dragon-ace-mze": {
+                    file: "Hotends/dragon-ace-mze",
+                    requires: { hotend: "dragon-ace-mze" },
+                    visualOnly: true,
+                    transform: {
+                        position: [34.1, -27.7, -42],
+                        rotation: [270, 270, 180],
+                        scale: 1
+                    }
+                },
+                "hotend-dragon-ace-volcano-mze": {
+                    file: "Hotends/dragon-ace-volcano-mze",
+                    requires: { hotend: "dragon-ace-volcano-mze" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, -2.2, -46],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "hotend-rapido-uhf": {
+                    file: "Hotends/rapido-uhf",
+                    requires: { hotend: "rapido-uhf" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0.2, -23, -31.8],
+                        rotation: [90, 0, 270],
                         scale: 1
                     }
                 }

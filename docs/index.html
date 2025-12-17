@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A4T Toolhead Configurator</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="css/style.css">
     <!-- JSZip for creating ZIP downloads -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -26,6 +27,21 @@
             <!-- Configuration Panel -->
             <aside class="config-panel">
                 <h2>Configuration</h2>
+                
+                <!-- Color Customization -->
+                <section class="config-section color-section">
+                    <h3>Colors</h3>
+                    <div class="color-pickers">
+                        <div class="color-picker-group">
+                            <label for="main-color">Main Color</label>
+                            <input type="color" id="main-color" value="#444444">
+                        </div>
+                        <div class="color-picker-group">
+                            <label for="accent-color">Accent Color</label>
+                            <input type="color" id="accent-color" value="#A62C2B">
+                        </div>
+                    </div>
+                </section>
                 
                 <!-- Carriage Selection -->
                 <section class="config-section">
@@ -257,15 +273,12 @@
                     <button class="viewer-btn" id="btn-wireframe" title="Wireframe">
                         <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18l6.9 3.45L12 11.08 5.1 7.63 12 4.18zM4 8.82l7 3.5v7.86l-7-3.5V8.82zm9 11.36v-7.86l7-3.5v7.86l-7 3.5z"/></svg>
                     </button>
-                    <div class="viewer-btn-separator"></div>
-                    <button class="viewer-btn active" id="btn-perspective" title="Perspective">P</button>
-                    <button class="viewer-btn" id="btn-ortho" title="Orthographic">O</button>
                 </div>
 
                 <!-- Loading Indicator -->
-                <div class="loading-overlay" id="loading">
-                    <div class="spinner"></div>
-                    <p>Loading models...</p>
+                <div class="loading-indicator" id="loading">
+                    <div class="spinner-small"></div>
+                    <span>Loading...</span>
                 </div>
 
 

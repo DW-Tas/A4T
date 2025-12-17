@@ -24,9 +24,11 @@ const state = {
     },
     loadedModels: new Map(),  // Cache of loaded GLTF models
     activeModels: new Map(),  // Currently displayed models
-    exploded: false,
     wireframe: false,
-    initialLoad: true  // Track if this is the first load
+    initialLoad: true,  // Track if this is the first load
+    // Custom colors
+    mainColor: 0x444444,      // Dark grey (cowlings, wwbmg main body)
+    accentColor: 0xA62C2B     // Dark red (extruder adapters, wwbmg tension arm & motor plate)
 };
 
 // ============================================
@@ -157,9 +159,19 @@ function deepCloneModel(source) {
     return clone;
 }
 
-async function loadModel(partId, partData) {
+async function loadModel(partId, partData, isHexCowl = false) {
     // Build file path: basePath + file + extension
-    const filePath = partsManifest.basePath + partData.file + '.' + partsManifest.fileExtension;
+    let filePath;
+    
+    if (isHexCowl && partData.category === 'cowlings') {
+        // For hex cowlings, prepend "Hex " to the filename
+        const parts = partData.file.split('/');
+        const fileName = parts.pop();
+        parts.push('Hex ' + fileName);
+        filePath = partsManifest.basePath + parts.join('/') + '.' + partsManifest.fileExtension;
+    } else {
+        filePath = partsManifest.basePath + partData.file + '.' + partsManifest.fileExtension;
+    }
     
     // Check cache first
     if (state.loadedModels.has(filePath)) {
@@ -189,7 +201,7 @@ async function loadModel(partId, partData) {
 function applyTransform(model, transform) {
     if (!transform) return;
     
-    // Position (convert from mm if needed)
+    // Position in mm
     if (transform.position) {
         model.position.set(...transform.position);
     }
@@ -210,19 +222,107 @@ function applyTransform(model, transform) {
     model.scale.set(finalScale, finalScale, finalScale);
 }
 
-function applyMaterial(model, color, opacity = 1.0) {
+function applyMaterial(model, color, opacity = 1.0, partId = null, isHexCowl = false) {
     model.traverse((child) => {
         if (child.isMesh) {
+            // Build full hierarchy string for matching
+            let allNames = child.name.toLowerCase();
+            let p = child.parent;
+            while (p) {
+                if (p.name) allNames += ' ' + p.name.toLowerCase();
+                p = p.parent;
+            }
+            
+            // For hex cowlings: hide support meshes entirely
+            if (isHexCowl) {
+                if (allNames.includes('support')) {
+                    child.visible = false;
+                    return;  // Skip material assignment for hidden meshes
+                }
+            }
+            
+            let meshColor = color;
+            let meshOpacity = opacity;
+            
+            // Apply different colors to hex cowling sub-parts
+            if (isHexCowl) {
+                if (allNames.includes('hexagon')) {
+                    meshColor = state.accentColor;
+                    meshOpacity = 1.0;
+                } else {
+                    // Main cowling body - main color
+                    meshColor = state.mainColor;
+                    meshOpacity = 1.0;
+                }
+            }
+            // Apply different colors to WW-BMG sub-parts using custom colors
+            else if (partId && partId.startsWith('wwbmg')) {
+                // Motor plate - accent color (includes sensor variants)
+                if (allNames.includes('motor_plate')) {
+                    meshColor = state.accentColor;
+                    meshOpacity = 1.0;
+                // Tension arm - accent color (includes idler variants)
+                } else if (allNames.includes('tension_arm')) {
+                    meshColor = state.accentColor;
+                    meshOpacity = 1.0;
+                // Main body - main color
+                } else if (allNames.includes('main_body')) {
+                    meshColor = state.mainColor;
+                    meshOpacity = 1.0;
+                }
+            }
+            
             child.material = new THREE.MeshStandardMaterial({
-                color: color,
+                color: meshColor,
                 metalness: 0.1,
                 roughness: 0.7,
-                transparent: opacity < 1.0,
-                opacity: opacity
+                transparent: meshOpacity < 1.0,
+                opacity: meshOpacity
             });
             child.castShadow = true;
             child.receiveShadow = true;
         }
+    });
+}
+
+/**
+ * Re-apply materials to all active models (used when colors change)
+ */
+function updateModelColors() {
+    state.activeModels.forEach((model, partId) => {
+        const part = model.userData;
+        if (!part) return;
+        
+        // Determine base color and opacity for this part
+        let color, opacity = 1.0;
+        
+        // Crossbow assembly - matches carriage (check first, before category)
+        if (partId === 'crossbow-assembly') {
+            color = 0x888888;
+            opacity = 0.6;
+        // Parts that use main color
+        } else if (part.category === 'cowlings' || part.category === 'hotendDucts') {
+            color = state.mainColor;
+        // Parts that use accent color
+        } else if (part.category === 'extruderAdapters' || part.category === 'boardMounts') {
+            color = state.accentColor;
+        // WW-BMG has sub-parts handled in applyMaterial
+        } else if (part.category === 'wwbmg') {
+            color = state.mainColor;  // Default, sub-parts override
+        // Other categories keep their fixed colors
+        } else if (part.category === 'carriages' || part.category === 'hotends') {
+            color = 0x888888;
+            opacity = 0.6;
+        } else if (part.category === 'hotendSpacers') {
+            color = 0xd94a4a;
+        } else if (part.category === 'ledHolders') {
+            color = 0xeeeeee;
+        } else {
+            color = 0x888888;
+        }
+        
+        // Pass isHexCowl flag for proper sub-part coloring
+        applyMaterial(model, color, opacity, partId, part.isHexCowl || false);
     });
 }
 
@@ -376,7 +476,6 @@ function updateDisabledOptions(config) {
     
     // Define incompatibility rules
     const uhfHotends = ['dragon-uhf', 'dragon-ace-mze', 'dragon-ace-volcano-mze', 'rapido-uhf'];
-    const uhfCompatibleExtruders = ['wwbmg', 'wwg2', 'orbiter'];
     const isUHF = uhfHotends.includes(config.hotend);
     const isCrossbow = config.filamentCutter === 'crossbow';
     const isSherpaMini = config.extruder === 'sherpa-mini';
@@ -477,20 +576,68 @@ async function updateViewer() {
     updateDisabledOptions(config);
     
     const matchingParts = getMatchingParts(config);
+    const newPartIds = new Set(matchingParts.map(p => p.id));
+    const currentPartIds = new Set(state.activeModels.keys());
     
-    // Show loading
-    document.getElementById('loading').classList.remove('hidden');
+    // Find parts to remove (in current but not in new)
+    let toRemove = [...currentPartIds].filter(id => !newPartIds.has(id));
     
-    // Clear current models
-    modelGroup.clear();
-    state.activeModels.clear();
+    // Find parts to add (in new but not in current)
+    let toAdd = matchingParts.filter(p => !currentPartIds.has(p.id));
     
-    // Load and display matching parts
-    for (const part of matchingParts) {
+    // Check if any existing cowlings need to be reloaded due to hexCowl change
+    for (const [partId, model] of state.activeModels) {
+        const part = model.userData;
+        if (part && part.category === 'cowlings') {
+            const currentIsHex = part.isHexCowl || false;
+            const shouldBeHex = config.hexCowl;
+            if (currentIsHex !== shouldBeHex) {
+                // Cowling hex state changed - need to reload
+                toRemove.push(partId);
+                const matchingPart = matchingParts.find(p => p.id === partId);
+                if (matchingPart) {
+                    toAdd.push(matchingPart);
+                }
+            }
+        }
+    }
+    
+    // Only show loading if we need to load new models (not cached)
+    const needsLoading = toAdd.some(part => {
+        // Check for hex cowling path
+        let filePath;
+        if (config.hexCowl && part.category === 'cowlings') {
+            const parts = part.file.split('/');
+            const fileName = parts.pop();
+            parts.push('Hex ' + fileName);
+            filePath = partsManifest.basePath + parts.join('/') + '.' + partsManifest.fileExtension;
+        } else {
+            filePath = partsManifest.basePath + part.file + '.' + partsManifest.fileExtension;
+        }
+        return !state.loadedModels.has(filePath);
+    });
+    
+    if (needsLoading) {
+        document.getElementById('loading').classList.remove('hidden');
+    }
+    
+    // Remove parts that are no longer needed
+    for (const partId of toRemove) {
+        const model = state.activeModels.get(partId);
+        if (model) {
+            modelGroup.remove(model);
+            state.activeModels.delete(partId);
+        }
+    }
+    
+    // Add new parts
+    for (const part of toAdd) {
         try {
-            const model = await loadModel(part.id, part);
+            // Determine if this is a hex cowling
+            const isHexCowl = config.hexCowl && part.category === 'cowlings';
             
-            // Apply transform
+            const model = await loadModel(part.id, part, isHexCowl);
+            
             // Skip if model failed to load
             if (!model) {
                 continue;
@@ -498,32 +645,42 @@ async function updateViewer() {
             
             applyTransform(model, part.transform);
             
-            // Apply material color - use bright colors for visibility
-            const categoryColors = {
-                carriages: 0x888888,        // Gray
-                cowlings: 0x4a90d9,        // Blue
-                hotendDucts: 0xd94a4a,     // Red  
-                hotendSpacers: 0xd94a4a,   // Red (same as ducts)
-                extruderAdapters: 0x4ad94a, // Green
-                ledHolders: 0xeeeeee,       // White
-                boardMounts: 0xd9d94a,      // Yellow
-                wwbmg: 0x9b59b6             // Purple
-            };
+            // Apply material color - use custom colors for main/accent parts
+            let color, opacity = 1.0;
             
-            // Special colors for specific parts
-            const partColors = {
-                'crossbow-assembly': 0x555555  // Mid-dark gray for crossbow assembly
-            };
+            // Crossbow assembly - matches carriage (check first, before category)
+            if (part.id === 'crossbow-assembly') {
+                color = 0x888888;
+                opacity = 0.6;
+            // Parts that use main color (customizable)
+            } else if (part.category === 'cowlings' || part.category === 'hotendDucts') {
+                color = state.mainColor;
+            // Parts that use accent color (customizable)
+            } else if (part.category === 'extruderAdapters' || part.category === 'boardMounts') {
+                color = state.accentColor;
+            // WW-BMG uses main color as base, sub-parts handled in applyMaterial
+            } else if (part.category === 'wwbmg') {
+                color = state.mainColor;
+            // Fixed colors for other categories
+            } else if (part.category === 'carriages' || part.category === 'hotends') {
+                color = 0x888888;
+                opacity = 0.6;
+            } else if (part.category === 'hotendSpacers') {
+                color = 0xd94a4a;
+            } else if (part.category === 'hotends') {
+                color = 0x555555;
+                opacity = 0.7;
+            } else if (part.category === 'ledHolders') {
+                color = 0xeeeeee;
+            } else {
+                color = 0x888888;
+            }
             
-            const color = partColors[part.id] || categoryColors[part.category] || 0x888888;
-            let opacity = 1.0;
-            if (part.category === 'carriages') opacity = 0.6;
-            else if (part.id === 'crossbow-assembly') opacity = 0.7;
-            applyMaterial(model, color, opacity);
+            applyMaterial(model, color, opacity, part.id, isHexCowl);
             
             // Add to scene
             model.name = part.id;
-            model.userData = part;
+            model.userData = { ...part, isHexCowl };  // Store hex cowl state for color updates
             modelGroup.add(model);
             state.activeModels.set(part.id, model);
             
@@ -548,11 +705,6 @@ async function updateViewer() {
     
     // Hide loading
     document.getElementById('loading').classList.add('hidden');
-    
-    // Update dev panel if in dev mode
-    if (state.devMode) {
-        updateDevPanel();
-    }
 }
 
 function updatePartsList(parts, stlOnlyParts = [], config = {}) {
@@ -650,19 +802,25 @@ function centerCameraOnModels() {
     const size = box.getSize(new THREE.Vector3());
     
     const maxDim = Math.max(size.x, size.y, size.z);
+    
+    // Calculate camera distance based on model size and FOV
     const fov = camera.fov * (Math.PI / 180);
     let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
     cameraZ *= 2.0; // Zoom out more
     
     // Handle very small models
     if (maxDim < 1) {
-        cameraZ = 0.5;  // Get very close for tiny models
+        cameraZ = 0.5;
     }
     
+    // Position camera
     camera.position.set(center.x + cameraZ * 0.7, center.y + cameraZ * 0.5, center.z + cameraZ * 0.7);
+    
+    // Update near/far planes
     camera.near = maxDim * 0.001 || 0.001;
     camera.far = maxDim * 100 || 10000;
     camera.updateProjectionMatrix();
+    
     controls.target.copy(center);
     controls.update();
 }
@@ -712,65 +870,20 @@ function setupEventListeners() {
     document.getElementById('btn-reset-view').addEventListener('click', () => {
         centerCameraOnModels();
     });
-    
-    // Explode view disabled - uncomment if re-enabled in HTML
-    // document.getElementById('btn-explode').addEventListener('click', toggleExplodedView);
     document.getElementById('btn-wireframe').addEventListener('click', toggleWireframe);
     
-    document.getElementById('btn-perspective').addEventListener('click', () => {
-        setPerspective(true);
+    // Color pickers
+    document.getElementById('main-color').addEventListener('input', (e) => {
+        state.mainColor = parseInt(e.target.value.replace('#', ''), 16);
+        updateModelColors();
     });
-    
-    document.getElementById('btn-ortho').addEventListener('click', () => {
-        setPerspective(false);
+    document.getElementById('accent-color').addEventListener('input', (e) => {
+        state.accentColor = parseInt(e.target.value.replace('#', ''), 16);
+        updateModelColors();
     });
     
     // Download button
     document.getElementById('download-btn').addEventListener('click', downloadParts);
-}
-
-function toggleExplodedView() {
-    state.exploded = !state.exploded;
-    document.getElementById('btn-explode').classList.toggle('active', state.exploded);
-    
-    const explodeDistance = 30;
-    
-    state.activeModels.forEach((model, partId) => {
-        const baseTransform = model.userData.transform || { position: [0, 0, 0] };
-        
-        if (state.exploded) {
-            // Move parts outward based on their category
-            const category = model.userData.category;
-            let offset = [0, 0, 0];
-            
-            switch (category) {
-                case 'cowlings':
-                    offset = [0, 0, 0];
-                    break;
-                case 'hotendDucts':
-                    offset = [0, -explodeDistance, 0];
-                    break;
-                case 'extruderAdapters':
-                    offset = [0, explodeDistance, 0];
-                    break;
-                case 'ledHolders':
-                    offset = [0, 0, explodeDistance];
-                    break;
-                case 'boardMounts':
-                    offset = [0, explodeDistance * 1.5, 0];
-                    break;
-            }
-            
-            model.position.set(
-                baseTransform.position[0] + offset[0],
-                baseTransform.position[1] + offset[1],
-                baseTransform.position[2] + offset[2]
-            );
-        } else {
-            // Return to original position
-            model.position.set(...baseTransform.position);
-        }
-    });
 }
 
 function toggleWireframe() {
@@ -782,20 +895,6 @@ function toggleWireframe() {
             child.material.wireframe = state.wireframe;
         }
     });
-}
-
-function setPerspective(isPerspective) {
-    document.getElementById('btn-perspective').classList.toggle('active', isPerspective);
-    document.getElementById('btn-ortho').classList.toggle('active', !isPerspective);
-    
-    // Would need to swap camera type for true ortho
-    // For now, just adjust FOV to simulate
-    if (isPerspective) {
-        camera.fov = 45;
-    } else {
-        camera.fov = 10;  // Very narrow FOV approximates ortho
-    }
-    camera.updateProjectionMatrix();
 }
 
 // GitHub raw content base URLs
@@ -904,7 +1003,7 @@ async function downloadParts() {
         const zipBlob = await zip.generateAsync({ 
             type: 'blob',
             compression: 'DEFLATE',
-            compressionOptions: { level: 6 }
+            compressionOptions: { level: 2 }  // Low compression for faster creation
         }, (metadata) => {
             downloadBtn.textContent = `Creating ZIP... ${Math.round(metadata.percent)}%`;
         });

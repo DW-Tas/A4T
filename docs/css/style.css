@@ -109,6 +109,48 @@ body {
     margin-bottom: 0.5rem;
 }
 
+/* Color Picker Section */
+.color-section {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.color-pickers {
+    display: flex;
+    gap: 1rem;
+}
+
+.color-picker-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.color-picker-group label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.color-picker-group input[type="color"] {
+    width: 100%;
+    height: 36px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-secondary);
+    cursor: pointer;
+    padding: 2px;
+}
+
+.color-picker-group input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 2px;
+}
+
+.color-picker-group input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 2px;
+}
+
 .section-note {
     font-size: 0.75rem;
     color: var(--text-muted, #888);
@@ -380,43 +422,40 @@ body {
     margin: 0.25rem;
 }
 
-/* Loading Overlay */
-.loading-overlay {
+/* Loading Indicator (subtle corner version) */
+.loading-indicator {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(26, 26, 46, 0.9);
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(26, 26, 46, 0.85);
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
     z-index: 100;
-    transition: opacity 0.3s;
+    transition: opacity 0.2s;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
 }
 
-.loading-overlay.hidden {
+.loading-indicator.hidden {
     opacity: 0;
     pointer-events: none;
 }
 
-.spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--border-color);
+.spinner-small {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--border-color);
     border-top-color: var(--accent);
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
     to { transform: rotate(360deg); }
-}
-
-.loading-overlay p {
-    margin-top: 1rem;
-    color: var(--text-secondary);
 }
 
 /* Dev Panel */
