@@ -896,6 +896,7 @@ function setupEventListeners() {
 
 // Scroll indicator constants
 const SCROLL_THRESHOLD_PX = 20;
+const SCROLL_NUDGE_PX = 150;
 const RENDER_DELAY_MS = 100;
 
 /**
@@ -904,6 +905,7 @@ const RENDER_DELAY_MS = 100;
 function setupScrollIndicator() {
     const configPanel = document.querySelector('.config-panel');
     const configContent = document.querySelector('.config-panel-content');
+    const scrollIndicator = document.querySelector('.scroll-indicator');
     
     if (!configPanel || !configContent) return;
     
@@ -916,6 +918,13 @@ function setupScrollIndicator() {
         const hasMoreContent = scrollHeight - scrollTop - clientHeight > SCROLL_THRESHOLD_PX;
         
         configPanel.classList.toggle('has-more-content', hasMoreContent);
+    }
+    
+    // Click on indicator scrolls down
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+            configContent.scrollBy({ top: SCROLL_NUDGE_PX, behavior: 'smooth' });
+        });
     }
     
     // Check on scroll

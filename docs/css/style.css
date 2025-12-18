@@ -106,9 +106,20 @@ body {
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    pointer-events: none;
+    cursor: pointer;
     z-index: 1;
+    padding: 8px 16px;
     animation: bounce 1.5s ease-in-out infinite;
+    transition: color 0.2s;
+}
+
+.scroll-indicator:hover {
+    color: var(--accent);
+}
+
+.scroll-indicator:active {
+    animation: none;
+    transform: translateX(-50%) scale(0.95);
 }
 
 .scroll-indicator svg {
