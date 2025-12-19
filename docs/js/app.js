@@ -44,7 +44,7 @@ function initThreeJS() {
     
     // Scene
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x1a1a2e);
+    scene.background = new THREE.Color(0x0a0c10);
     
     // Camera - set up for mm scale (parts are ~100mm)
     camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);

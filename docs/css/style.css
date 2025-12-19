@@ -1,17 +1,33 @@
 /* A4T Configurator Styles */
 
 :root {
-    --bg-primary: #1a1a2e;
-    --bg-secondary: #16213e;
-    --bg-panel: #1f2940;
-    --accent: #e94560;
-    --accent-hover: #ff6b6b;
-    --text-primary: #eaeaea;
-    --text-secondary: #a0a0a0;
-    --border-color: #2d3a4f;
-    --success: #4ade80;
-    --warning: #fbbf24;
+    /* Backgrounds - from dwtas.net */
+    --bg-primary: #0a0c10;
+    --bg-secondary: #0f1318;
+    --bg-panel: #1c2128;
+    --bg-tertiary: #161b22;
+    
+    /* Accent colors - blue tones */
+    --accent: #4a6fa5;
+    --accent-hover: #6989b9;
+    --accent-light: #7ea3cc;
+    
+    /* Text */
+    --text-primary: #f0f3f6;
+    --text-secondary: #9aa5b1;
+    --text-muted: #6b7785;
+    
+    /* Borders */
+    --border-color: #2d333b;
+    --border-light: #444c56;
+    
+    /* Status colors */
+    --success: #3fb950;
+    --warning: #d29922;
     --error: #ef4444;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #3d5a80 0%, #4a6fa5 50%, #6989b9 100%);
 }
 
 * {
@@ -21,11 +37,13 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    line-height: 1.5;
+    line-height: 1.6;
     overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #app {
