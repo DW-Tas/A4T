@@ -505,21 +505,22 @@ body {
     margin: 0.25rem;
 }
 
-/* Loading Indicator (subtle corner version) */
+/* Loading Indicator (centered version) */
 .loading-indicator {
     position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    background: rgba(26, 26, 46, 0.85);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(26, 26, 46, 0.9);
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
     border: 1px solid var(--border-color);
     z-index: 100;
-    transition: opacity 0.2s;
-    font-size: 0.75rem;
+    transition: opacity 0.3s;
+    font-size: 0.875rem;
     color: var(--text-secondary);
 }
 

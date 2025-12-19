@@ -102,10 +102,7 @@ function initThreeJS() {
     // Start render loop
     animate();
     
-    // Hide loading overlay
-    setTimeout(() => {
-        document.getElementById('loading').classList.add('hidden');
-    }, 500);
+    // Loading overlay is hidden after models finish loading in updateConfiguration()
 }
 
 function setupLighting() {
