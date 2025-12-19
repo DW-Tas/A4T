@@ -621,6 +621,14 @@ async function updateViewer() {
     const toRemove = [...toRemoveSet];
     const toAdd = matchingParts.filter(p => toAddSet.has(p.id));
     
+    // Update parts list UI immediately (before loading models)
+    const stlOnlyParts = getMatchingStlOnlyParts(config);
+    updatePartsList(matchingParts, stlOnlyParts, config);
+    
+    // Update warnings
+    const warnings = checkCompatibility(config);
+    updateWarnings(warnings);
+    
     // Only show loading if we need to load new models (not cached)
     const needsLoading = toAdd.some(part => {
         // Check for hex cowling path
@@ -716,14 +724,6 @@ async function updateViewer() {
         }
     }
     
-    // Update parts list UI (include STL-only parts)
-    const stlOnlyParts = getMatchingStlOnlyParts(config);
-    updatePartsList(matchingParts, stlOnlyParts, config);
-    
-    // Update warnings
-    const warnings = checkCompatibility(config);
-    updateWarnings(warnings);
-    
     // Skip auto-centering on initial load (custom default view is set in initThreeJS)
     if (state.initialLoad) {
         state.initialLoad = false;
@@ -772,28 +772,47 @@ function updatePartsList(parts, stlOnlyParts = [], config = {}) {
             const li = document.createElement('li');
             li.className = 'part-file-entry';
             
-            // Handle both gltf parts (file) and STL-only parts (stlFile)
-            let fileName;
+            // Build file path using same logic as downloadParts
+            let filePath;
+            let is3mf = false;
+            
             if (part.stlFile) {
-                fileName = part.stlFile.split('/').pop();
+                // STL-only parts
+                filePath = part.stlFile;
+            } else if (part.stlPath) {
+                // Parts with explicit stlPath
+                filePath = part.stlPath;
             } else {
-                // Remove .glb if present, then ensure .stl extension
-                let baseName = part.file.split('/').pop().replace('.glb', '');
-                fileName = baseName.endsWith('.stl') ? baseName : baseName + '.stl';
+                // Convert GLTF path to STL path
+                let baseName = part.file.replace('.glb', '');
+                filePath = baseName.endsWith('.stl') ? baseName : baseName + '.stl';
             }
             
-            // Transform cowling filename if hex cowl option is enabled
+            // Transform cowling to hex 3MF if enabled (same logic as downloadParts)
             if (config.hexCowl && part.category === 'cowlings') {
+                const fileName = filePath.split('/').pop();
                 const baseName = fileName.replace('.stl', '');
-                fileName = 'Hex ' + baseName + '.3mf';
+                const hexFileName = 'Hex ' + baseName + '.3mf';
+                filePath = 'Cowlings [Hexagon multi-colour]/' + hexFileName;
+                is3mf = true;
             }
+            
+            // Build GitHub URL using same base URLs as downloadParts
+            const baseUrl = is3mf ? GITHUB_3MF_BASE : GITHUB_STL_BASE;
+            const encodedPath = filePath.split('/').map(segment => encodeURIComponent(segment)).join('/');
+            const githubUrl = baseUrl + encodedPath;
+            
+            // Get display filename
+            const fileName = filePath.split('/').pop();
             
             // Build quantity and note text
             let quantityText = part.quantity && part.quantity > 1 ? ` (x${part.quantity})` : '';
             let noteText = part.printNote ? `<span class="print-note">${part.printNote}</span>` : '';
             
             li.innerHTML = `
-                <span class="part-file">${fileName}${quantityText}</span>
+                <a href="${githubUrl}" target="_blank" rel="noopener" class="part-file-link">
+                    <span class="part-file">${fileName}${quantityText}</span>
+                </a>
                 ${noteText}
             `;
             listEl.appendChild(li);
