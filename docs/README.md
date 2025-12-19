@@ -26,7 +26,7 @@ The app needs to be served via HTTP (not file://) due to ES modules.
 
 **Option A: Python (easiest)**
 ```bash
-cd web
+cd docs
 python -m http.server 8000
 ```
 
@@ -41,29 +41,45 @@ Then open http://localhost:8000 in your browser.
 
 ## Features
 
-- **Configuration Panel**: Select carriage, hotend, extruder
+- **Configuration Panel**: Select carriage, hotend, extruder, toolhead board, and more
 - **3D Viewer**: Orbit, zoom, pan the assembled toolhead
-- **Exploded View**: See how parts fit together
+- **Color Customization**: Pick main and accent colors with color pickers
+- **Wireframe Mode**: Toggle wireframe view to see through parts
+- **STL Download**: Download all required STL files as a ZIP
 - **Parts List**: Shows exactly which files you need
 - **Compatibility Warnings**: Alerts for incompatible combinations
 
-## Dev Mode
+## Dev Mode (Model Positioning)
 
-Press `Ctrl+Shift+D` to toggle dev mode, which shows:
-- Transform editor for positioning parts
-- Copy transform JSON for updating `partsManifest.js`
+To enable the dev positioning tool for aligning new models:
+
+1. Uncomment the dev script in `index.html`:
+   ```html
+   <script type="module" src="js/devModelPositioner.js"></script>
+   ```
+2. Refresh the page - a dev panel will appear
+3. Select a model and use keyboard controls to position it:
+   - **X/Y/Z** - Rotate 90° around each axis
+   - **< / >** - Move along X axis
+   - **Arrow Up/Down** - Move along Y axis
+   - **Arrow Left/Right** - Move along Z axis
+   - **Shift** - 1mm precision, **Ctrl** - 0.1mm precision
+4. Copy the transform JSON output to `partsManifest.js`
+5. Comment out the script when done
 
 ## File Structure
 
 ```
-web/
+docs/
 ├── index.html          # Main HTML page
 ├── css/
 │   └── style.css       # Styles
 ├── js/
 │   ├── app.js          # Main Three.js application
-│   └── partsManifest.js # Part definitions and compatibility rules
-└── models/             # GLB files from Onshape
+│   ├── partsManifest.js # Part definitions and compatibility rules
+│   └── devModelPositioner.js # Dev tool for positioning models
+├── models/             # GLB files from Onshape
+└── tests/              # Automated tests
 ```
 
 ## Adding New Parts
@@ -77,7 +93,7 @@ web/
 
 ## Hosting on GitHub Pages
 
-1. Ensure the `web/` folder is in your repo
+1. Ensure the `docs/` folder is in your repo
 2. Go to repo Settings → Pages
-3. Set source to deploy from branch, select `/web` folder
+3. Set source to deploy from branch, select `/docs` folder
 4. Your configurator will be live at `https://yourusername.github.io/A4T/`

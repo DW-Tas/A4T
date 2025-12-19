@@ -23,9 +23,9 @@
  *   Z - Rotate 90° around Z axis
  * 
  * Translation:
- *   Arrow Up/Down - Move along X axis
- *   Arrow Left/Right - Move along Y axis
- *   W/S - Move along Z axis
+ *   < / > - Move along X axis
+ *   Arrow Up/Down - Move along Y axis
+ *   Arrow Left/Right - Move along Z axis
  * 
  * Modifiers:
  *   Default: 5mm movement
@@ -282,9 +282,9 @@ function createDevPanel() {
                 <div class="control-item"><span class="key">X</span> Rotate X 90°</div>
                 <div class="control-item"><span class="key">Y</span> Rotate Y 90°</div>
                 <div class="control-item"><span class="key">Z</span> Rotate Z 90°</div>
-                <div class="control-item"><span class="key">↑↓</span> Move X</div>
-                <div class="control-item"><span class="key">←→</span> Move Y</div>
-                <div class="control-item"><span class="key">W/S</span> Move Z</div>
+                <div class="control-item"><span class="key">&lt; / &gt;</span> Move X</div>
+                <div class="control-item"><span class="key">↑↓</span> Move Y</div>
+                <div class="control-item"><span class="key">←→</span> Move Z</div>
             </div>
             <div style="margin-top: 8px; color: #888; font-size: 10px;">
                 Movement: Default 5mm | <span class="key">Shift</span> 1mm | <span class="key">Ctrl</span> 0.1mm
@@ -496,32 +496,32 @@ function setupKeyboardControls() {
             handled = true;
         }
         // Translation controls
-        else if (e.key === 'ArrowUp') {
+        else if (key === '>' || key === '.') {
             devState.transform.position[0] += moveAmount;
             addHistoryEntry(`Move X +${moveAmount}mm → ${devState.transform.position[0].toFixed(1)}`, 'translate');
             handled = true;
         }
-        else if (e.key === 'ArrowDown') {
+        else if (key === '<' || key === ',') {
             devState.transform.position[0] -= moveAmount;
             addHistoryEntry(`Move X -${moveAmount}mm → ${devState.transform.position[0].toFixed(1)}`, 'translate');
             handled = true;
         }
-        else if (e.key === 'ArrowRight') {
+        else if (e.key === 'ArrowUp') {
             devState.transform.position[1] += moveAmount;
             addHistoryEntry(`Move Y +${moveAmount}mm → ${devState.transform.position[1].toFixed(1)}`, 'translate');
             handled = true;
         }
-        else if (e.key === 'ArrowLeft') {
+        else if (e.key === 'ArrowDown') {
             devState.transform.position[1] -= moveAmount;
             addHistoryEntry(`Move Y -${moveAmount}mm → ${devState.transform.position[1].toFixed(1)}`, 'translate');
             handled = true;
         }
-        else if (key === 'w') {
+        else if (e.key === 'ArrowLeft') {
             devState.transform.position[2] += moveAmount;
             addHistoryEntry(`Move Z +${moveAmount}mm → ${devState.transform.position[2].toFixed(1)}`, 'translate');
             handled = true;
         }
-        else if (key === 's') {
+        else if (e.key === 'ArrowRight') {
             devState.transform.position[2] -= moveAmount;
             addHistoryEntry(`Move Z -${moveAmount}mm → ${devState.transform.position[2].toFixed(1)}`, 'translate');
             handled = true;
