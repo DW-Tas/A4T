@@ -64,8 +64,8 @@ function initThreeJS() {
     scene.background = new THREE.Color(0x0a0c10);
     
     // Camera - set up for mm scale (parts are ~100mm)
-    camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
-    camera.position.set(200, 150, 200);
+    camera = new THREE.PerspectiveCamera(25, width / height, 1, 10000);
+    camera.position.set(143.84, 82.10, 285.96);
     
     // Renderer
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -80,7 +80,7 @@ function initThreeJS() {
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.target.set(0, 0, 0);
+    controls.target.set(0.91, 25.89, -35.32);
     controls.update();
     
     // Lighting
@@ -93,6 +93,8 @@ function initThreeJS() {
     // Expose for dev tools
     window.modelGroup = modelGroup;
     window.scene = scene;
+    window.camera = camera;
+    window.controls = controls;
     
     // Handle resize
     window.addEventListener('resize', onWindowResize);
@@ -725,9 +727,8 @@ async function updateViewer() {
     const warnings = checkCompatibility(config);
     updateWarnings(warnings);
     
-    // Center camera on models only on initial load
+    // Skip auto-centering on initial load (custom default view is set in initThreeJS)
     if (state.initialLoad) {
-        centerCameraOnModels();
         state.initialLoad = false;
     }
     
@@ -823,33 +824,9 @@ function updateWarnings(warnings) {
 }
 
 function centerCameraOnModels() {
-    if (modelGroup.children.length === 0) return;
-    
-    const box = new THREE.Box3().setFromObject(modelGroup);
-    const center = box.getCenter(new THREE.Vector3());
-    const size = box.getSize(new THREE.Vector3());
-    
-    const maxDim = Math.max(size.x, size.y, size.z);
-    
-    // Calculate camera distance based on model size and FOV
-    const fov = camera.fov * (Math.PI / 180);
-    let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-    cameraZ *= 1.2; // Zoom factor (lower = closer)
-    
-    // Handle very small models
-    if (maxDim < 1) {
-        cameraZ = 0.5;
-    }
-    
-    // Position camera
-    camera.position.set(center.x + cameraZ * 0.7, center.y + cameraZ * 0.5, center.z + cameraZ * 0.7);
-    
-    // Update near/far planes
-    camera.near = maxDim * 0.001 || 0.001;
-    camera.far = maxDim * 100 || 10000;
-    camera.updateProjectionMatrix();
-    
-    controls.target.copy(center);
+    // Reset to preferred default view
+    camera.position.set(143.84, 82.10, 285.96);
+    controls.target.set(0.91, 25.89, -35.32);
     controls.update();
 }
 
