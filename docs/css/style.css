@@ -92,8 +92,29 @@ body {
 
 .config-panel-content {
     flex: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
     padding: 1rem;
+    /* Force scrollbar visibility on mobile */
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Custom scrollbar for webkit browsers (Chrome, Safari, Edge) */
+.config-panel-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.config-panel-content::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.config-panel-content::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.config-panel-content::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
 }
 
 .scroll-indicator {
