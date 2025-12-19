@@ -32,6 +32,23 @@ const state = {
 };
 
 // ============================================
+// Color Utilities
+// ============================================
+
+/**
+ * Darken a hex color by a percentage (0-1)
+ * @param {number} color - Hex color value (e.g., 0x444444)
+ * @param {number} amount - Amount to darken (0-1, where 0.2 = 20% darker)
+ * @returns {number} Darkened hex color
+ */
+function darkenColor(color, amount) {
+    const r = Math.max(0, ((color >> 16) & 0xFF) * (1 - amount)) | 0;
+    const g = Math.max(0, ((color >> 8) & 0xFF) * (1 - amount)) | 0;
+    const b = Math.max(0, (color & 0xFF) * (1 - amount)) | 0;
+    return (r << 16) | (g << 8) | b;
+}
+
+// ============================================
 // Three.js Setup
 // ============================================
 let scene, camera, renderer, controls;
@@ -54,8 +71,8 @@ function initThreeJS() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.enabled = false;
+    // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     container.appendChild(renderer.domElement);
     
@@ -97,9 +114,9 @@ function setupLighting() {
     // Key light
     const keyLight = new THREE.DirectionalLight(0xffffff, 1);
     keyLight.position.set(50, 100, 50);
-    keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 2048;
-    keyLight.shadow.mapSize.height = 2048;
+    keyLight.castShadow = false;
+    // keyLight.shadow.mapSize.width = 2048;
+    // keyLight.shadow.mapSize.height = 2048;
     scene.add(keyLight);
     
     // Fill light
@@ -278,8 +295,8 @@ function applyMaterial(model, color, opacity = 1.0, partId = null, isHexCowl = f
                 transparent: meshOpacity < 1.0,
                 opacity: meshOpacity
             });
-            child.castShadow = true;
-            child.receiveShadow = true;
+            child.castShadow = false;
+            child.receiveShadow = false;
         }
     });
 }
@@ -299,9 +316,12 @@ function updateModelColors() {
         if (partId === 'crossbow-assembly') {
             color = 0x888888;
             opacity = 0.6;
-        // Parts that use main color
-        } else if (part.category === 'cowlings' || part.category === 'hotendDucts') {
+        // Cowlings use main color
+        } else if (part.category === 'cowlings') {
             color = state.mainColor;
+        // Hotend ducts are slightly darker for contrast
+        } else if (part.category === 'hotendDucts') {
+            color = darkenColor(state.mainColor, 0.2);
         // Parts that use accent color
         } else if (part.category === 'extruderAdapters' || part.category === 'boardMounts') {
             color = state.accentColor;
@@ -657,9 +677,12 @@ async function updateViewer() {
             if (part.id === 'crossbow-assembly') {
                 color = 0x888888;
                 opacity = 0.6;
-            // Parts that use main color (customizable)
-            } else if (part.category === 'cowlings' || part.category === 'hotendDucts') {
+            // Cowlings use main color (customizable)
+            } else if (part.category === 'cowlings') {
                 color = state.mainColor;
+            // Hotend ducts are slightly darker for contrast
+            } else if (part.category === 'hotendDucts') {
+                color = darkenColor(state.mainColor, 0.2);
             // Parts that use accent color (customizable)
             } else if (part.category === 'extruderAdapters' || part.category === 'boardMounts') {
                 color = state.accentColor;
