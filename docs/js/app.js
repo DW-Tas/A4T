@@ -811,7 +811,7 @@ function centerCameraOnModels() {
     // Calculate camera distance based on model size and FOV
     const fov = camera.fov * (Math.PI / 180);
     let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-    cameraZ *= 2.0; // Zoom out more
+    cameraZ *= 1.2; // Zoom factor (lower = closer)
     
     // Handle very small models
     if (maxDim < 1) {
