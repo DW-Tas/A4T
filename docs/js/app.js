@@ -328,7 +328,7 @@ function updateModelColors() {
         } else if (part.category === 'wwbmg') {
             color = state.mainColor;  // Default, sub-parts override
         // Other categories keep their fixed colors
-        } else if (part.category === 'carriages' || part.category === 'hotends') {
+        } else if (part.category === 'carriages' || part.category === 'hotends' || part.category === 'extruders') {
             color = 0x888888;
             opacity = 0.6;
         } else if (part.category === 'hotendSpacers') {
@@ -697,14 +697,11 @@ async function updateViewer() {
             } else if (part.category === 'wwbmg') {
                 color = state.mainColor;
             // Fixed colors for other categories
-            } else if (part.category === 'carriages' || part.category === 'hotends') {
+            } else if (part.category === 'carriages' || part.category === 'hotends' || part.category === 'extruders') {
                 color = 0x888888;
                 opacity = 0.6;
             } else if (part.category === 'hotendSpacers') {
                 color = 0xd94a4a;
-            } else if (part.category === 'hotends') {
-                color = 0x555555;
-                opacity = 0.7;
             } else if (part.category === 'ledHolders') {
                 color = 0xeeeeee;
             } else {

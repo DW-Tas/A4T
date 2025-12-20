@@ -345,6 +345,67 @@ export const partsManifest = {
         },
         
         // ========================================
+        // EXTRUDER VISUAL MODELS
+        // Visual reference models for non-WW-BMG extruders
+        // ========================================
+        extruders: {
+            category: "Extruder",
+            description: "Extruder visual reference model",
+            variants: {
+                "extruder-sherpa-mini": {
+                    file: "Extruders/sherpa-mini",
+                    requires: { extruder: "sherpa-mini" },
+                    visualOnly: true,
+                    transform: {
+                        position: [-31, -33.5, 69.2],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "extruder-wwg2": {
+                    file: "Extruders/wwg2",
+                    requires: { extruder: "wwg2" },
+                    visualOnly: true,
+                    transform: {
+                        position: [67, 100.1, -156.5],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "extruder-orbiter": {
+                    file: "Extruders/orb2",
+                    requires: { extruder: "orbiter" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, 30.9, -32],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "extruder-lgx-lite": {
+                    file: "Extruders/lgx-lite",
+                    requires: { extruder: "lgx-lite" },
+                    visualOnly: true,
+                    transform: {
+                        position: [-0.2, 31.5, -32.3],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                },
+                "extruder-vz-hextrudort": {
+                    file: "Extruders/vz-hex",
+                    requires: { extruder: "vz-hextrudort" },
+                    visualOnly: true,
+                    transform: {
+                        position: [0, 31.5, -31.6],
+                        rotation: [270, 0, 0],
+                        scale: 1
+                    }
+                }
+            }
+        },
+        
+        // ========================================
         // WW-BMG EXTRUDER MODELS
         // ========================================
         wwbmg: {
