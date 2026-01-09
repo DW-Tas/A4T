@@ -1269,4 +1269,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     updateViewer();
+
+    // Listen for hash changes (e.g., when user pastes a shared URL)
+    window.addEventListener('hashchange', () => {
+        const loaded = loadStateFromHash();
+
+        if (loaded) {
+            // Clear hash after loading
+            window.history.replaceState(null, '', window.location.pathname);
+
+            // Update UI and viewer
+            syncUIToState();
+            updateViewer();
+        }
+    });
 });
