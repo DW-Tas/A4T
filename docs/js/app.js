@@ -11,7 +11,9 @@ import { partsManifest } from './partsManifest.js';
 // ============================================
 // Application State
 // ============================================
-const state = {
+
+// Default configuration
+const defaultConfig = {
     config: {
         carriage: 'xol-carriage',
         hotend: 'dragon',
@@ -22,14 +24,218 @@ const state = {
         filamentCutter: 'none',
         hexCowl: false
     },
+    mainColor: 0x444444,      // Dark grey (cowlings, wwbmg main body)
+    accentColor: 0xA62C2B     // Dark red (extruder adapters, wwbmg tension arm & motor plate)
+};
+
+const state = {
+    config: { ...defaultConfig.config },
     loadedModels: new Map(),  // Cache of loaded GLTF models
     activeModels: new Map(),  // Currently displayed models
     wireframe: false,
     initialLoad: true,  // Track if this is the first load
-    // Custom colors
-    mainColor: 0x444444,      // Dark grey (cowlings, wwbmg main body)
-    accentColor: 0xA62C2B     // Dark red (extruder adapters, wwbmg tension arm & motor plate)
+    mainColor: defaultConfig.mainColor,
+    accentColor: defaultConfig.accentColor
 };
+
+// ============================================
+// URL Hash State Management
+// ============================================
+
+/**
+ * Extract shareable state (config + colors)
+ */
+function getShareableState() {
+    return {
+        config: state.config,
+        mainColor: state.mainColor,
+        accentColor: state.accentColor
+    };
+}
+
+/**
+ * Encode state to URL hash (base64 JSON)
+ */
+function encodeStateToHash(shareableState) {
+    const json = JSON.stringify(shareableState);
+    return btoa(json);
+}
+
+/**
+ * Decode state from URL hash
+ */
+function decodeHashToState(hash) {
+    try {
+        const json = atob(hash);
+        return JSON.parse(json);
+    } catch (e) {
+        console.warn('Failed to decode hash:', e);
+        return null;
+    }
+}
+
+/**
+ * Generate shareable URL with current state
+ */
+function generateShareUrl() {
+    const shareableState = getShareableState();
+    const hash = encodeStateToHash(shareableState);
+    const baseUrl = window.location.origin + window.location.pathname;
+    return `${baseUrl}#${hash}`;
+}
+
+/**
+ * Copy shareable URL to clipboard
+ */
+async function copyShareUrl() {
+    const shareUrl = generateShareUrl();
+
+    try {
+        await navigator.clipboard.writeText(shareUrl);
+        return true;
+    } catch (err) {
+        console.error('Failed to copy URL:', err);
+        return false;
+    }
+}
+
+/**
+ * Load state from URL hash on page load
+ */
+function loadStateFromHash() {
+    const hash = window.location.hash.slice(1); // Remove '#'
+    if (!hash) return false;
+
+    const decoded = decodeHashToState(hash);
+    if (!decoded) return false;
+
+    // Merge config
+    if (decoded.config) {
+        Object.assign(state.config, decoded.config);
+    }
+
+    // Merge colors
+    if (decoded.mainColor !== undefined) {
+        state.mainColor = decoded.mainColor;
+    }
+    if (decoded.accentColor !== undefined) {
+        state.accentColor = decoded.accentColor;
+    }
+
+    return true;
+}
+
+/**
+ * Save state to session storage
+ */
+function saveStateToSession() {
+    try {
+        const shareableState = getShareableState();
+        sessionStorage.setItem('a4t-config', JSON.stringify(shareableState));
+    } catch (e) {
+        console.warn('Failed to save to session storage:', e);
+    }
+}
+
+/**
+ * Load state from session storage
+ */
+function loadStateFromSession() {
+    try {
+        const stored = sessionStorage.getItem('a4t-config');
+        if (!stored) return false;
+
+        const decoded = JSON.parse(stored);
+        if (!decoded) return false;
+
+        // Merge config
+        if (decoded.config) {
+            Object.assign(state.config, decoded.config);
+        }
+
+        // Merge colors
+        if (decoded.mainColor !== undefined) {
+            state.mainColor = decoded.mainColor;
+        }
+        if (decoded.accentColor !== undefined) {
+            state.accentColor = decoded.accentColor;
+        }
+
+        return true;
+    } catch (e) {
+        console.warn('Failed to load from session storage:', e);
+        return false;
+    }
+}
+
+/**
+ * Reset configuration to defaults
+ */
+function resetToDefaults() {
+    // Reset config
+    state.config = { ...defaultConfig.config };
+
+    // Reset colors
+    state.mainColor = defaultConfig.mainColor;
+    state.accentColor = defaultConfig.accentColor;
+
+    // Clear session storage
+    sessionStorage.removeItem('a4t-config');
+
+    // Update UI
+    syncUIToState();
+
+    // Update viewer
+    updateViewer();
+}
+
+/**
+ * Show/hide WW-BMG options based on extruder
+ */
+function updateWwbmgOptionsVisibility() {
+    const wwbmgOptions = document.getElementById('wwbmg-options');
+    if (wwbmgOptions) {
+        wwbmgOptions.style.display = state.config.extruder === 'wwbmg' ? 'block' : 'none';
+    }
+}
+
+/**
+ * Update UI inputs to match loaded state
+ */
+function syncUIToState() {
+    // Sync config radio buttons
+    for (const [key, value] of Object.entries(state.config)) {
+        // Convert camelCase to kebab-case
+        const inputName = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+
+        if (typeof value === 'boolean') {
+            // Checkbox
+            const checkbox = document.querySelector(`input[name="${inputName}"][type="checkbox"]`);
+            if (checkbox) {
+                checkbox.checked = value;
+            }
+        } else {
+            // Radio button
+            const radio = document.querySelector(`input[name="${inputName}"][value="${value}"]`);
+            if (radio) {
+                radio.checked = true;
+            }
+        }
+    }
+
+    // Sync color pickers
+    const mainColorInput = document.getElementById('main-color');
+    if (mainColorInput) {
+        mainColorInput.value = '#' + state.mainColor.toString(16).padStart(6, '0');
+    }
+
+    const accentColorInput = document.getElementById('accent-color');
+    if (accentColorInput) {
+        accentColorInput.value = '#' + state.accentColor.toString(16).padStart(6, '0');
+    }
+
+    updateWwbmgOptionsVisibility();
+}
 
 // ============================================
 // Color Utilities
@@ -855,25 +1061,23 @@ function setupEventListeners() {
             const configKey = e.target.name.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
             const value = e.target.value;
             state.config[configKey] = value;
-            
+
             // Show/hide WW-BMG sensor options based on extruder selection
             if (configKey === 'extruder') {
-                const wwbmgOptions = document.getElementById('wwbmg-options');
-                if (wwbmgOptions) {
-                    wwbmgOptions.style.display = value === 'wwbmg' ? 'block' : 'none';
-                }
+                updateWwbmgOptionsVisibility();
             }
-            
+
             updateViewer();
+            saveStateToSession();
         });
     });
-    
+
     // Checkboxes
     document.querySelectorAll('.option-group input[type="checkbox"]').forEach(input => {
         input.addEventListener('change', (e) => {
             // Convert kebab-case to camelCase (e.g., "filament-cutter" -> "filamentCutter")
             const configKey = e.target.name.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
-            
+
             // hexCowl is a boolean, others use value/'none'
             if (configKey === 'hexCowl') {
                 state.config[configKey] = e.target.checked;
@@ -881,28 +1085,60 @@ function setupEventListeners() {
                 state.config[configKey] = e.target.checked ? e.target.value : 'none';
             }
             updateViewer();
+            saveStateToSession();
         });
     });
-    
+
     // Viewer controls
     document.getElementById('btn-reset-view').addEventListener('click', () => {
         centerCameraOnModels();
     });
     document.getElementById('btn-wireframe').addEventListener('click', toggleWireframe);
-    
+
     // Color pickers
     document.getElementById('main-color').addEventListener('input', (e) => {
         state.mainColor = parseInt(e.target.value.replace('#', ''), 16);
         updateModelColors();
+        saveStateToSession();
     });
     document.getElementById('accent-color').addEventListener('input', (e) => {
         state.accentColor = parseInt(e.target.value.replace('#', ''), 16);
         updateModelColors();
+        saveStateToSession();
     });
-    
+
     // Download button
     document.getElementById('download-btn').addEventListener('click', downloadParts);
-    
+
+    // Copy URL button
+    const copyUrlBtn = document.getElementById('copy-url-btn');
+    if (copyUrlBtn) {
+        copyUrlBtn.addEventListener('click', async () => {
+            const success = await copyShareUrl();
+            const originalText = copyUrlBtn.textContent;
+
+            if (success) {
+                copyUrlBtn.textContent = 'Copied!';
+            } else {
+                copyUrlBtn.textContent = 'Failed to copy';
+            }
+
+            setTimeout(() => {
+                copyUrlBtn.textContent = originalText;
+            }, 2000);
+        });
+    }
+
+    // Reset button
+    const resetBtn = document.getElementById('reset-btn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            if (confirm('Reset configuration to defaults? This will clear all your current settings.')) {
+                resetToDefaults();
+            }
+        });
+    }
+
     // Mobile scroll indicator
     setupScrollIndicator();
 }
@@ -1101,7 +1337,44 @@ async function downloadParts() {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Load state from URL hash if present (takes priority over session storage)
+    const hasLoadedFromHash = loadStateFromHash();
+
+    // If no hash, try loading from session storage
+    const hasLoadedFromSession = !hasLoadedFromHash && loadStateFromSession();
+
+    // Clear hash from URL after loading
+    if (hasLoadedFromHash) {
+        window.history.replaceState(null, '', window.location.pathname);
+    }
+
     initThreeJS();
     setupEventListeners();
+
+    // Sync UI to reflect loaded state
+    if (hasLoadedFromHash || hasLoadedFromSession) {
+        syncUIToState();
+    }
+
     updateViewer();
+
+    // Save initial state to session storage
+    saveStateToSession();
+
+    // Listen for hash changes (e.g., when user pastes a shared URL)
+    window.addEventListener('hashchange', () => {
+        const loaded = loadStateFromHash();
+
+        if (loaded) {
+            // Clear hash after loading
+            window.history.replaceState(null, '', window.location.pathname);
+
+            // Update UI and viewer
+            syncUIToState();
+            updateViewer();
+
+            // Save to session storage
+            saveStateToSession();
+        }
+    });
 });
