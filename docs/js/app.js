@@ -54,6 +54,23 @@ function getShareableState() {
 }
 
 /**
+ * Validate configuration object to prevent corruption
+ */
+function validateConfig(config) {
+    const validKeys = ['carriage', 'hotend', 'extruder', 'wwbmgSensors', 
+                       'wwbmgIdler', 'toolheadBoard', 'filamentCutter', 'hexCowl'];
+    
+    const validated = {};
+    for (const key of validKeys) {
+        if (config.hasOwnProperty(key)) {
+            validated[key] = config[key];
+        }
+    }
+    
+    return validated;
+}
+
+/**
  * Encode state to URL hash (base64 JSON)
  */
 function encodeStateToHash(shareableState) {
@@ -107,11 +124,19 @@ function loadStateFromHash() {
     if (!hash) return false;
 
     const decoded = decodeHashToState(hash);
-    if (!decoded) return false;
+    if (!decoded) {
+        // Invalid share URL - notify user
+        console.warn('Invalid configuration URL - loading defaults');
+        setTimeout(() => {
+            alert('The shared configuration URL is invalid or corrupted. Loading default configuration instead.');
+        }, 500); // Delay to ensure DOM is ready
+        return false;
+    }
 
-    // Merge config
+    // Merge config with validation
     if (decoded.config) {
-        Object.assign(state.config, decoded.config);
+        const validatedConfig = validateConfig(decoded.config);
+        Object.assign(state.config, validatedConfig);
     }
 
     // Merge colors
@@ -148,9 +173,10 @@ function loadStateFromSession() {
         const decoded = JSON.parse(stored);
         if (!decoded) return false;
 
-        // Merge config
+        // Merge config with validation
         if (decoded.config) {
-            Object.assign(state.config, decoded.config);
+            const validatedConfig = validateConfig(decoded.config);
+            Object.assign(state.config, validatedConfig);
         }
 
         // Merge colors
@@ -187,6 +213,9 @@ function resetToDefaults() {
 
     // Update viewer
     updateViewer();
+    
+    // Force color update for all existing models (fixes bug where colors don't reset)
+    updateModelColors();
 }
 
 /**
@@ -223,15 +252,17 @@ function syncUIToState() {
         }
     }
 
-    // Sync color pickers
+    // Sync color pickers with safe hex conversion
     const mainColorInput = document.getElementById('main-color');
     if (mainColorInput) {
-        mainColorInput.value = '#' + state.mainColor.toString(16).padStart(6, '0');
+        const mainColorHex = Math.abs(state.mainColor & 0xFFFFFF).toString(16).padStart(6, '0');
+        mainColorInput.value = '#' + mainColorHex;
     }
 
     const accentColorInput = document.getElementById('accent-color');
     if (accentColorInput) {
-        accentColorInput.value = '#' + state.accentColor.toString(16).padStart(6, '0');
+        const accentColorHex = Math.abs(state.accentColor & 0xFFFFFF).toString(16).padStart(6, '0');
+        accentColorInput.value = '#' + accentColorHex;
     }
 
     updateWwbmgOptionsVisibility();
@@ -1097,14 +1128,20 @@ function setupEventListeners() {
 
     // Color pickers
     document.getElementById('main-color').addEventListener('input', (e) => {
-        state.mainColor = parseInt(e.target.value.replace('#', ''), 16);
-        updateModelColors();
-        saveStateToSession();
+        const colorValue = parseInt(e.target.value.replace('#', ''), 16);
+        if (!isNaN(colorValue)) {
+            state.mainColor = colorValue;
+            updateModelColors();
+            saveStateToSession();
+        }
     });
     document.getElementById('accent-color').addEventListener('input', (e) => {
-        state.accentColor = parseInt(e.target.value.replace('#', ''), 16);
-        updateModelColors();
-        saveStateToSession();
+        const colorValue = parseInt(e.target.value.replace('#', ''), 16);
+        if (!isNaN(colorValue)) {
+            state.accentColor = colorValue;
+            updateModelColors();
+            saveStateToSession();
+        }
     });
 
     // Download button
