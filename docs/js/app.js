@@ -119,6 +119,49 @@ function loadStateFromHash() {
 }
 
 /**
+ * Save state to session storage
+ */
+function saveStateToSession() {
+    try {
+        const shareableState = getShareableState();
+        sessionStorage.setItem('a4t-config', JSON.stringify(shareableState));
+    } catch (e) {
+        console.warn('Failed to save to session storage:', e);
+    }
+}
+
+/**
+ * Load state from session storage
+ */
+function loadStateFromSession() {
+    try {
+        const stored = sessionStorage.getItem('a4t-config');
+        if (!stored) return false;
+
+        const decoded = JSON.parse(stored);
+        if (!decoded) return false;
+
+        // Merge config
+        if (decoded.config) {
+            Object.assign(state.config, decoded.config);
+        }
+
+        // Merge colors
+        if (decoded.mainColor !== undefined) {
+            state.mainColor = decoded.mainColor;
+        }
+        if (decoded.accentColor !== undefined) {
+            state.accentColor = decoded.accentColor;
+        }
+
+        return true;
+    } catch (e) {
+        console.warn('Failed to load from session storage:', e);
+        return false;
+    }
+}
+
+/**
  * Show/hide WW-BMG options based on extruder
  */
 function updateWwbmgOptionsVisibility() {
@@ -997,6 +1040,7 @@ function setupEventListeners() {
             }
 
             updateViewer();
+            saveStateToSession();
         });
     });
 
@@ -1013,6 +1057,7 @@ function setupEventListeners() {
                 state.config[configKey] = e.target.checked ? e.target.value : 'none';
             }
             updateViewer();
+            saveStateToSession();
         });
     });
 
@@ -1026,10 +1071,12 @@ function setupEventListeners() {
     document.getElementById('main-color').addEventListener('input', (e) => {
         state.mainColor = parseInt(e.target.value.replace('#', ''), 16);
         updateModelColors();
+        saveStateToSession();
     });
     document.getElementById('accent-color').addEventListener('input', (e) => {
         state.accentColor = parseInt(e.target.value.replace('#', ''), 16);
         updateModelColors();
+        saveStateToSession();
     });
 
     // Download button
@@ -1252,8 +1299,11 @@ async function downloadParts() {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Load state from URL hash if present
+    // Load state from URL hash if present (takes priority over session storage)
     const hasLoadedFromHash = loadStateFromHash();
+
+    // If no hash, try loading from session storage
+    const hasLoadedFromSession = !hasLoadedFromHash && loadStateFromSession();
 
     // Clear hash from URL after loading
     if (hasLoadedFromHash) {
@@ -1264,11 +1314,14 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
 
     // Sync UI to reflect loaded state
-    if (hasLoadedFromHash) {
+    if (hasLoadedFromHash || hasLoadedFromSession) {
         syncUIToState();
     }
 
     updateViewer();
+
+    // Save initial state to session storage
+    saveStateToSession();
 
     // Listen for hash changes (e.g., when user pastes a shared URL)
     window.addEventListener('hashchange', () => {
@@ -1281,6 +1334,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update UI and viewer
             syncUIToState();
             updateViewer();
+
+            // Save to session storage
+            saveStateToSession();
         }
     });
 });
