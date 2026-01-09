@@ -1082,21 +1082,21 @@ function setupEventListeners() {
     // Download button
     document.getElementById('download-btn').addEventListener('click', downloadParts);
 
-    // Share button
-    const shareBtn = document.getElementById('share-btn');
-    if (shareBtn) {
-        shareBtn.addEventListener('click', async () => {
+    // Copy URL button
+    const copyUrlBtn = document.getElementById('copy-url-btn');
+    if (copyUrlBtn) {
+        copyUrlBtn.addEventListener('click', async () => {
             const success = await copyShareUrl();
-            const originalText = shareBtn.textContent;
+            const originalText = copyUrlBtn.textContent;
 
             if (success) {
-                shareBtn.textContent = 'Copied!';
+                copyUrlBtn.textContent = 'Copied!';
             } else {
-                shareBtn.textContent = 'Failed to copy';
+                copyUrlBtn.textContent = 'Failed to copy';
             }
 
             setTimeout(() => {
-                shareBtn.textContent = originalText;
+                copyUrlBtn.textContent = originalText;
             }, 2000);
         });
     }

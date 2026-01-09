@@ -464,7 +464,7 @@ body {
     background: var(--accent-hover);
 }
 
-.btn-share {
+.btn-copy-url {
     width: 100%;
     padding: 0.75rem 1rem;
     background: var(--bg-secondary);
@@ -477,7 +477,7 @@ body {
     transition: background-color 0.2s, border-color 0.2s;
 }
 
-.btn-share:hover {
+.btn-copy-url:hover {
     background: var(--bg-tertiary);
     border-color: var(--accent);
 }
