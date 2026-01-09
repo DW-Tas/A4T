@@ -68,13 +68,28 @@ function decodeHashToState(hash) {
 }
 
 /**
- * Update URL hash with current state
+ * Generate shareable URL with current state
  */
-function updateUrlHash() {
+function generateShareUrl() {
     const shareableState = getShareableState();
     const hash = encodeStateToHash(shareableState);
-    const newUrl = `${window.location.pathname}#${hash}`;
-    window.history.replaceState(null, '', newUrl);
+    const baseUrl = window.location.origin + window.location.pathname;
+    return `${baseUrl}#${hash}`;
+}
+
+/**
+ * Copy shareable URL to clipboard
+ */
+async function copyShareUrl() {
+    const shareUrl = generateShareUrl();
+
+    try {
+        await navigator.clipboard.writeText(shareUrl);
+        return true;
+    } catch (err) {
+        console.error('Failed to copy URL:', err);
+        return false;
+    }
 }
 
 /**
@@ -982,7 +997,6 @@ function setupEventListeners() {
             }
 
             updateViewer();
-            updateUrlHash();
         });
     });
 
@@ -999,7 +1013,6 @@ function setupEventListeners() {
                 state.config[configKey] = e.target.checked ? e.target.value : 'none';
             }
             updateViewer();
-            updateUrlHash();
         });
     });
 
@@ -1013,16 +1026,33 @@ function setupEventListeners() {
     document.getElementById('main-color').addEventListener('input', (e) => {
         state.mainColor = parseInt(e.target.value.replace('#', ''), 16);
         updateModelColors();
-        updateUrlHash();
     });
     document.getElementById('accent-color').addEventListener('input', (e) => {
         state.accentColor = parseInt(e.target.value.replace('#', ''), 16);
         updateModelColors();
-        updateUrlHash();
     });
 
     // Download button
     document.getElementById('download-btn').addEventListener('click', downloadParts);
+
+    // Share button
+    const shareBtn = document.getElementById('share-btn');
+    if (shareBtn) {
+        shareBtn.addEventListener('click', async () => {
+            const success = await copyShareUrl();
+            const originalText = shareBtn.textContent;
+
+            if (success) {
+                shareBtn.textContent = 'Copied!';
+            } else {
+                shareBtn.textContent = 'Failed to copy';
+            }
+
+            setTimeout(() => {
+                shareBtn.textContent = originalText;
+            }, 2000);
+        });
+    }
 
     // Mobile scroll indicator
     setupScrollIndicator();
@@ -1225,6 +1255,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load state from URL hash if present
     const hasLoadedFromHash = loadStateFromHash();
 
+    // Clear hash from URL after loading
+    if (hasLoadedFromHash) {
+        window.history.replaceState(null, '', window.location.pathname);
+    }
+
     initThreeJS();
     setupEventListeners();
 
@@ -1234,9 +1269,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     updateViewer();
-
-    // Set initial hash if none exists
-    if (!window.location.hash) {
-        updateUrlHash();
-    }
 });
