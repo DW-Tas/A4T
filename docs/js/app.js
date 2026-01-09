@@ -126,9 +126,9 @@ function loadStateFromHash() {
     const decoded = decodeHashToState(hash);
     if (!decoded) {
         // Invalid share URL - notify user
-        console.warn('Invalid configuration URL - loading defaults');
+        console.warn('Invalid configuration URL - ignoring and using existing/default config');
         setTimeout(() => {
-            alert('The shared configuration URL is invalid or corrupted. Loading default configuration instead.');
+            alert('The shared configuration URL is invalid or corrupted. Loading your saved configuration instead.');
         }, 500); // Delay to ensure DOM is ready
         return false;
     }
