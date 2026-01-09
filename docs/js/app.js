@@ -11,7 +11,9 @@ import { partsManifest } from './partsManifest.js';
 // ============================================
 // Application State
 // ============================================
-const state = {
+
+// Default configuration
+const defaultConfig = {
     config: {
         carriage: 'xol-carriage',
         hotend: 'dragon',
@@ -22,13 +24,18 @@ const state = {
         filamentCutter: 'none',
         hexCowl: false
     },
+    mainColor: 0x444444,      // Dark grey (cowlings, wwbmg main body)
+    accentColor: 0xA62C2B     // Dark red (extruder adapters, wwbmg tension arm & motor plate)
+};
+
+const state = {
+    config: { ...defaultConfig.config },
     loadedModels: new Map(),  // Cache of loaded GLTF models
     activeModels: new Map(),  // Currently displayed models
     wireframe: false,
     initialLoad: true,  // Track if this is the first load
-    // Custom colors
-    mainColor: 0x444444,      // Dark grey (cowlings, wwbmg main body)
-    accentColor: 0xA62C2B     // Dark red (extruder adapters, wwbmg tension arm & motor plate)
+    mainColor: defaultConfig.mainColor,
+    accentColor: defaultConfig.accentColor
 };
 
 // ============================================
@@ -159,6 +166,27 @@ function loadStateFromSession() {
         console.warn('Failed to load from session storage:', e);
         return false;
     }
+}
+
+/**
+ * Reset configuration to defaults
+ */
+function resetToDefaults() {
+    // Reset config
+    state.config = { ...defaultConfig.config };
+
+    // Reset colors
+    state.mainColor = defaultConfig.mainColor;
+    state.accentColor = defaultConfig.accentColor;
+
+    // Clear session storage
+    sessionStorage.removeItem('a4t-config');
+
+    // Update UI
+    syncUIToState();
+
+    // Update viewer
+    updateViewer();
 }
 
 /**
@@ -1098,6 +1126,16 @@ function setupEventListeners() {
             setTimeout(() => {
                 copyUrlBtn.textContent = originalText;
             }, 2000);
+        });
+    }
+
+    // Reset button
+    const resetBtn = document.getElementById('reset-btn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            if (confirm('Reset configuration to defaults? This will clear all your current settings.')) {
+                resetToDefaults();
+            }
         });
     }
 
