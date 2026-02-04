@@ -735,6 +735,12 @@ function updateDisabledOptions(config) {
     const isCrossbow = config.filamentCutter === 'crossbow';
     const isSherpaMini = config.extruder === 'sherpa-mini';
     
+    // Show/hide UHF crossbow incompatibility note
+    const uhfCrossbowNote = document.getElementById('uhf-crossbow-note');
+    if (uhfCrossbowNote) {
+        uhfCrossbowNote.style.display = isCrossbow ? 'block' : 'none';
+    }
+    
     // Get all option inputs
     const allInputs = document.querySelectorAll('.option-group input[type="radio"], .option-group input[type="checkbox"]');
     
@@ -1380,8 +1386,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // If no hash, try loading from session storage
     const hasLoadedFromSession = !hasLoadedFromHash && loadStateFromSession();
 
-    // Clear hash from URL after loading
-    if (hasLoadedFromHash) {
+    // Clear hash from URL after loading (whether valid or invalid)
+    if (window.location.hash) {
         window.history.replaceState(null, '', window.location.pathname);
     }
 
