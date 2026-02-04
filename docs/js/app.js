@@ -735,10 +735,14 @@ function updateDisabledOptions(config) {
     const isCrossbow = config.filamentCutter === 'crossbow';
     const isSherpaMini = config.extruder === 'sherpa-mini';
     
-    // Show/hide UHF crossbow incompatibility note
+    // Show/hide UHF crossbow incompatibility notes
     const uhfCrossbowNote = document.getElementById('uhf-crossbow-note');
     if (uhfCrossbowNote) {
         uhfCrossbowNote.style.display = isCrossbow ? 'block' : 'none';
+    }
+    const crossbowUhfNote = document.getElementById('crossbow-uhf-note');
+    if (crossbowUhfNote) {
+        crossbowUhfNote.style.display = isUHF ? 'block' : 'none';
     }
     
     // Get all option inputs
