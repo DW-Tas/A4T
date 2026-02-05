@@ -1252,6 +1252,15 @@ export const partsManifest = {
                         scale: 1
                     }
                 },
+                "thb-orbiter-nh36-render": {
+                    file: "Toolhead Board Mounts/A4T - THB Mount - Orbiter - NH36",
+                    requires: { extruder: "orbiter", toolheadBoard: "nh36", carriage: "xol-carriage" },
+                    transform: {
+                        position: [-32, 60.7, -34.1],
+                        rotation: [180, 0, 0],
+                        scale: 1
+                    }
+                },
                 "thb-orbiter-xolpcb-render": {
                     file: "Toolhead Board Mounts/A4T - Xol_PCB Mount - Orbiter v2.0",
                     requires: { extruder: "orbiter", toolheadBoard: "xol-pcb", carriage: "xol-carriage" },
@@ -1377,6 +1386,10 @@ export const partsManifest = {
                 "thb-orbiter-xolpcb": {
                     stlFile: "Toolhead Board Mounts/A4T - Xol_PCB Mount - Orbiter v2.0.stl",
                     requires: { extruder: "orbiter", toolheadBoard: "xol-pcb", carriage: "xol-carriage" }
+                },
+                "thb-orbiter-nh36": {
+                    stlFile: "Toolhead Board Mounts/A4T - THB Mount - Orbiter - NH36.stl",
+                    requires: { extruder: "orbiter", toolheadBoard: "nh36", carriage: "xol-carriage" }
                 }
             }
         },

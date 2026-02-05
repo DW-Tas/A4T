@@ -6,7 +6,12 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { partsManifest } from './partsManifest.js';
+
+// Set up DRACO loader for compressed GLTF files
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/');
 
 // ============================================
 // Application State
@@ -388,6 +393,7 @@ function animate() {
 // Model Loading
 // ============================================
 const gltfLoader = new GLTFLoader();
+gltfLoader.setDRACOLoader(dracoLoader);
 
 /**
  * Deep clone a Three.js object, including materials and geometries
@@ -806,7 +812,7 @@ function updateDisabledOptions(config) {
             const boardCompatibility = {
                 'ebb36-sht36v2': ['wwbmg', 'wwg2', 'sherpa-mini', 'lgx-lite', 'vz-hextrudort'],
                 'h36': ['wwbmg'],
-                'nh36': ['wwbmg'],
+                'nh36': ['wwbmg', 'orbiter'],
                 'sht36v3': ['wwbmg'],
                 'xol-pcb': ['wwbmg', 'orbiter']
             };

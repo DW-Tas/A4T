@@ -35,6 +35,11 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+
+// Set up DRACO loader for compressed GLTF files
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/');
 
 // Dev state
 const devState = {
@@ -361,6 +366,7 @@ function createDevPanel() {
 }
 
 const gltfLoader = new GLTFLoader();
+gltfLoader.setDRACOLoader(dracoLoader);
 
 async function loadDevModel() {
     const pathInput = document.getElementById('dev-model-path');
